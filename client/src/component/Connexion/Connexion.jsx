@@ -78,9 +78,8 @@ class Connexion extends Component {
           Entrez le code inscrit sur votre écran de jeu.
         </TextConnexion>
         <form onSubmit={this.handleSubmit}>
-          <InputCode value={value} onChange={this.handleChange} />
-          <input className="" value={value} onChange={this.handleChange} />
-          <InputConnexion />
+          <InputCode type="text" value={value} onChange={this.handleChange} />
+          <InputConnexion type="submit" value="Validé" />
         </form>
       </>
     );

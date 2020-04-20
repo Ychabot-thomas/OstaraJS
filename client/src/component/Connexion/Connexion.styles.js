@@ -64,19 +64,14 @@ export const TextConnexion = styled.p`
   color: #dfa666;
 `;
 
-export const InputCode = styled.input.attrs((props) => ({
-  type: "text",
-}))`
+export const InputCode = styled.input`
   font-family: "Infini", sans-serif;
   background-color: #052e21;
   color: #e5ae74;
   border-radius: 10px solid #6d3200;
 `;
 
-export const InputConnexion = styled.input.attrs((props) => ({
-  type: "submit",
-  value: "Valider",
-}))`
+export const InputConnexion = styled.input`
   font-family: "Infini", sans-serif;
   font-size: 20px;
   color: #f8d5b1;
