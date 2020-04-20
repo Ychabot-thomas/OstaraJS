@@ -1,20 +1,23 @@
 import styled from "styled-components";
 
-const DivTouch = styled.div`
+export const DivTouch = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   min-height: 100vh;
 `;
-const ImgOstara = styled.img`
+
+export const ImgOstara = styled.img`
   width: 60%;
   margin: 0 auto;
 `;
-const ImgGobelins = styled.img`
+
+export const ImgGobelins = styled.img`
   width: 8%;
   margin: 0 auto;
 `;
-const TitlePage = styled.h1`
+
+export const TitlePage = styled.h1`
   font-family: "Infini", sans-serif;
   color: #91541d;
   font-size: 20px;
@@ -22,7 +25,7 @@ const TitlePage = styled.h1`
   position: relative;
 `;
 
-const SpanTitle = styled.span`
+export const SpanTitle = styled.span`
   ::before,
   ::after {
     content: "";
@@ -41,13 +44,13 @@ const SpanTitle = styled.span`
   }
 `;
 
-const DivConnexionTitle = styled.div`
+export const ConnexionContainer = styled.div`
   width: 40%;
   background-color: #e5ae74;
   border-radius: 50px;
 `;
 
-const H1ConnexionTitle = styled.h1`
+export const ConnexionTitle = styled.h1`
   font-family: "Infini", sans-serif;
   font-size: 28px;
   color: #332419;
@@ -55,7 +58,7 @@ const H1ConnexionTitle = styled.h1`
   text-transform: uppercase;
 `;
 
-const TextConnexion = styled.p`
+export const TextConnexion = styled.p`
   font-family: "Infini", sans-serif;
   font-size: 14px;
   color: #dfa666;
