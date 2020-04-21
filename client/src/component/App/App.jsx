@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import Connexion from "../Connexion/Connexion";
+import {
+  ContainerPortrait,
+  PicturePortrait,
+  ContainerPaysage,
+} from "./App.styles";
 import flecheCercle from "../../img/flecheCercle.png";
 import "./App.css";
-// import { ws, send, on } from "../../ws";
 
 class App extends Component {
   state = {
@@ -37,16 +41,16 @@ class App extends Component {
 
     if (width < height) {
       return (
-        <div className="portrait">
-          <img className="cercle" src={flecheCercle} alt="flecheCercle" />
-        </div>
+        <ContainerPortrait>
+          <PicturePortrait src={flecheCercle} alt="flecheCercle" />
+        </ContainerPortrait>
       );
     }
 
     return (
-      <div className="paysage">
+      <ContainerPaysage>
         <Connexion />
-      </div>
+      </ContainerPaysage>
     );
   }
 }

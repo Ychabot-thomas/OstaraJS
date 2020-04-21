@@ -12,6 +12,7 @@ import {
   ConnexionTitle,
   TextConnexion,
   InputCode,
+  ContainerInputConnexion,
   InputConnexion,
 } from "./Connexion.styles";
 
@@ -37,7 +38,7 @@ class Connexion extends Component {
   }
 
   handleSubmit(event) {
-    console.log("Le code envoyé est : " + this.state.value);
+    // console.log("Le code envoyé est : " + this.state.value);
     send("codeClient", { code: this.state.value });
     event.preventDefault();
   }
@@ -79,7 +80,9 @@ class Connexion extends Component {
         </TextConnexion>
         <form onSubmit={this.handleSubmit}>
           <InputCode type="text" value={value} onChange={this.handleChange} />
-          <InputConnexion type="submit" value="Validé" />
+          <ContainerInputConnexion>
+            <InputConnexion type="submit" value="Validé" />
+          </ContainerInputConnexion>
         </form>
       </>
     );
