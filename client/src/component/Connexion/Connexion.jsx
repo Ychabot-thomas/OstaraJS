@@ -3,6 +3,8 @@ import { ws, send, on } from "../../ws";
 import logoOstara from "../../img/logoOstara.png";
 import logoGobelins from "../../img/logoGobelins.png";
 import {
+  ContainerConnexionFalse,
+  ContainerConnexionTrue,
   DivTouch,
   ImgOstara,
   ImgGobelins,
@@ -46,9 +48,14 @@ class Connexion extends Component {
   componentDidUpdate() {
     ws.onmessage = (event) => {
       on(event.data, "verifCode", (str) => {
-        console.log(str.verif);
-        if (str.verif === "oui") {
-          console.log("Bonjour à toi petit copain");
+        if (str.verif === "code Accepté") {
+          alert("Succés, code correct");
+        }
+        if (str.verif === "code Accepté Mais") {
+          alert("Le code a déjà été rentré 4 fois");
+        }
+        if (str.verif === "Code refusé") {
+          alert("Erreur code incorect");
         }
       });
     };
@@ -72,6 +79,17 @@ class Connexion extends Component {
 
     return (
       <>
+        {/* <ContainerConnexionFalse>
+          Désolé mais le code que vous avez rentré ne correspond pas au code
+          généré par le jeu.
+          <br />
+          Veuillez réessayez avec le bon code.
+        </ContainerConnexionFalse>
+        <ContainerConnexionTrue>
+          Votre connexion avec le jeu esr désormais active.
+          <br />
+          Merci de patienter que les 4 joueurs se connectent.
+        </ContainerConnexionTrue> */}
         <ConnexionContainer>
           <ConnexionTitle>Connexion</ConnexionTitle>
         </ConnexionContainer>

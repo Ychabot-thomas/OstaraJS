@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import fond from "../../img/inputFond.png";
 
+export const ContainerConnexionFalse = styled.div``;
+export const ContainerConnexionTrue = styled.div``;
+
 export const DivTouch = styled.div`
   display: flex;
   flex-direction: column;

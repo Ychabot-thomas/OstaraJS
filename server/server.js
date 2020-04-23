@@ -6,6 +6,7 @@ const wss = new WebSocket.Server({ port: 9000 });
 
 // // Sauvergarde de data
 let codeDebut = 0;
+let user = 0;
 
 // // Convertisseur ws --> socket.io
 function on(str, eventName, action) {
@@ -25,25 +26,50 @@ wss.on("connection", function connection(ws) {
 
   ws.on("message", function (str) {
     on(str, "codeRandom", (data) => {
-      console.log(data.codeUnity);
       codeDebut = data.codeUnity;
-      console.log(codeDebut);
-      // send("codeRandom", { code: data.codeUnity });
-      // wss.clients.forEach(function each(client) {
-      //   if (client !== ws && client.readyState === WebSocket.OPEN) {
-      //     client.send(codeDebut);
-      //   }
-      // });
     });
 
     on(str, "codeClient", (data) => {
-      console.log(data.code);
       if (codeDebut === data.code) {
-        send("verifCode", { verif: "oui" });
-      } else {
-        send("verifCode", { verif: "non" });
+        if (user <= 3) {
+          send("verifCode", { verif: "code Accepté" });
+          user = user + 1;
+          console.log(user);
+        } else {
+          send("verifCode", { verif: "code Accepté Mais" });
+        }
+      }
+      if (codeDebut != data.code) {
+        send("verifCode", { verif: "Code refusé" });
       }
     });
+
+    on(str, "moveX", (data) => {
+      console.log("X : " + data.x);
+      wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send("true");
+        }
+      });
+    });
+
+    on(str, "moveY", (data) => {
+      console.log("Y : " + data.y);
+      wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send("true");
+        }
+      });
+    });
+
+    // on(str, "jump", (data) => {
+    //   console.log("jump : " + data.jump);
+    //   wss.clients.forEach(function each(client) {
+    //     if (client.readyState === WebSocket.OPEN) {
+    //       client.send("true");
+    //     }
+    //   });
+    // });
 
     //     // send("testMessage", { messageSend: "Bonjour React" });
     //     // , {

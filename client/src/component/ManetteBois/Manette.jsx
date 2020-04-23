@@ -1,19 +1,39 @@
 import React from "react";
+import { JoystickContainer, InputX, InputY } from "./Manette.styles";
+import { JoyStick } from "./joy";
 import { ws, on, send } from "../../ws";
 
 class Manette extends React.Component {
+  componentDidMount() {
+    const Joy = new JoyStick("joy");
+
+    var joy1X = document.getElementById("joy1X");
+    var joy1Y = document.getElementById("joy1Y");
+
+    const joystickX = () => {
+      joy1X.value = Joy.GetX();
+      send("moveX", { x: joy1X.value });
+    };
+    const joystickY = () => {
+      joy1Y.value = Joy.GetY();
+      send("moveY", { y: joy1Y.value });
+    };
+
+    setInterval(joystickX, 100);
+    setInterval(joystickY, 100);
+  }
+
+  // sauter = () => {
+  //   send("jump", { jump: true });
+  // };
+
   render() {
     return (
       <>
-        {/* <img src="" alt="Logo Ostara O" /> */}
-        <div id="buttonDirection">
-          {/* <button onClick={haut}>Haut</button>
-          <button onClick={bas}>Bas</button>
-          <button onClick={gauche}>Gauche</button>
-          <button onClick={droite}>Droite</button>
-          <button onClick={sauter}>Sauter</button> */}
-          Hello Manette
-        </div>
+        <JoystickContainer id="joy"></JoystickContainer>
+        <InputX id="joy1X" type="text" />
+        <InputY id="joy1Y" type="text" />
+        {/* <button onClick={this.sauter}>Sauter</button> */}
       </>
     );
   }
