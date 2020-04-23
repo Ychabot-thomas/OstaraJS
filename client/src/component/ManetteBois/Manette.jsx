@@ -12,11 +12,11 @@ class Manette extends React.Component {
 
     const joystickX = () => {
       joy1X.value = Joy.GetX();
-      send("moveX", { x: joy1X.value });
+      // send("moveX", { x: joy1X.value });
     };
     const joystickY = () => {
       joy1Y.value = Joy.GetY();
-      send("moveY", { y: joy1Y.value });
+      // send("moveY", { y: joy1Y.value });
     };
 
     setInterval(joystickX, 100);
