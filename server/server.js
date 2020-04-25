@@ -21,12 +21,21 @@ wss.on("connection", function connection(ws) {
   function send(eventName, data) {
     ws.send(JSON.stringify({ eventName, ...data }));
   }
+
+  // function sendCinematique() {
+  //   send("debutCinematique", { quatre: true });
+  //   wss.clients.forEach(function each(client) {
+  //     if ((client != ws && client.readyState) === WebSocket.OPEN) {
+  //       client.send("debutCinematique");
+  //     }
+  //   });
+  // }
   console.log("joueur connecté");
-  // ws.send("hello");
 
   ws.on("message", function (str) {
     on(str, "codeRandom", (data) => {
       codeDebut = data.codeUnity;
+      console.log(data.codeUnity);
     });
 
     on(str, "codeClient", (data) => {
@@ -35,6 +44,11 @@ wss.on("connection", function connection(ws) {
           send("verifCode", { verif: "code Accepté" });
           user = user + 1;
           console.log(user);
+          wss.clients.forEach(function each(client) {
+            if (client != ws && client.readyState === WebSocket.OPEN) {
+              client.send("player" + user);
+            }
+          });
         } else {
           send("verifCode", { verif: "code Accepté Mais" });
         }
@@ -44,64 +58,49 @@ wss.on("connection", function connection(ws) {
       }
     });
 
-    on(str, "moveX", (data) => {
-      console.log("X : " + data.x);
+    on(str, "videoMobilePlay", (data) => {
+      console.log(data.activeVideo);
       wss.clients.forEach(function each(client) {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send("true");
+        if (client != ws && client.readyState === WebSocket.OPEN) {
+          function sendClient(eventName, data) {
+            client.send(JSON.stringify({ eventName, ...data }));
+          }
+          sendClient("videoStart", { active: "playVideo" });
         }
       });
     });
 
-    on(str, "moveY", (data) => {
-      console.log("Y : " + data.y);
+    on(str, "videoMobileFini", (data) => {
+      console.log(data.finVideo);
       wss.clients.forEach(function each(client) {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send("true");
+        if (client != ws && client.readyState === WebSocket.OPEN) {
+          function sendClient(eventName, data) {
+            client.send(JSON.stringify({ eventName, ...data }));
+          }
+          sendClient("videoEnd", { desactive: "endVideo" });
         }
       });
     });
 
-    // on(str, "jump", (data) => {
-    //   console.log("jump : " + data.jump);
-    //   wss.clients.forEach(function each(client) {
-    //     if (client.readyState === WebSocket.OPEN) {
-    //       client.send("true");
-    //     }
-    //   });
-    // });
+    on(str, "move", (data) => {
+      // console.log("X : " + data.x + " / Y : " + data.y);
+      let x = data.x;
+      let y = data.y;
+      wss.clients.forEach(function each(client) {
+        if (client != ws && client.readyState === WebSocket.OPEN) {
+          client.send("X" + x + "Y" + y);
+        }
+      });
+    });
 
-    //     // send("testMessage", { messageSend: "Bonjour React" });
-    //     // , {
-    //     //   messageReact: "Bonjour Client",
-    //     //   messageUnity: "Bonjour Unity",
-    //     // }
-    //     // console.log("Client connecté");
-    //     // console.log(JSON.parse(str));
-    //     // console.log(toto);
-    //     // ws.send("Hello Client");
-    //     // const data = JSON.parse(str);
-    //     // const { eventName } = data;
-    //     // if (eventName === "code") {
-    //     //   codeDebut = data.code;
-    //     // }
-    //     // if (eventName === "numberShow") {
-    //     //   // const isPlayerA = data.isPlayerA;
-    //     //   // const isPlayerB = data.isPlayerB;
-    //     //   // if (isPlayerB) {
-    //     //   //   console.log("Joueur 1 :", graine);
-    //     //   // }
-    //     //   // if (isPlayerA) {
-    //     //   //   console.log("Joueur 2 :", graine);
-    //     //   // }
-    //     //   numberShow(data);
-    //     // }
-    //     // --------------------------------
-    //     // on(str, "code", (data) => {
-    //     //   console.log("code", data);
-    //     // });
-    //     // send("test", { unity: "OK" });
-    //     // str --> donnnée reçu / "" --> eventName / fonction executé si évément OK
-    //     // on(str, "numberShow", numberShow);
+    on(str, "jump", (data) => {
+      if (data.jump === true) {
+        wss.clients.forEach(function each(client) {
+          if (client != ws && client.readyState === WebSocket.OPEN) {
+            client.send("jump");
+          }
+        });
+      }
+    });
   });
 });

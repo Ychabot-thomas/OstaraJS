@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { ws, send, on } from "../../ws";
+import PageAttente from "../PageAttente/PageAttente";
 import logoOstara from "../../img/logoOstara.png";
 import logoGobelins from "../../img/logoGobelins.png";
+import croix from "../../img/croix.png";
 import {
+  CrossCode,
+  CrossText,
   ContainerConnexionFalse,
   ContainerConnexionTrue,
+  ContainerConnexionTrueBut,
   DivTouch,
   ImgOstara,
   ImgGobelins,
@@ -29,6 +34,7 @@ class Connexion extends Component {
   state = {
     afficheConnexion: false,
     value: "",
+    video: "",
   };
 
   touchScreen = () => {
@@ -49,21 +55,35 @@ class Connexion extends Component {
     ws.onmessage = (event) => {
       on(event.data, "verifCode", (str) => {
         if (str.verif === "code Accepté") {
-          alert("Succés, code correct");
+          document.getElementById("true").style.display = "block";
         }
         if (str.verif === "code Accepté Mais") {
-          alert("Le code a déjà été rentré 4 fois");
+          document.getElementById("but").style.display = "block";
         }
         if (str.verif === "Code refusé") {
-          alert("Erreur code incorect");
+          document.getElementById("false").style.display = "block";
         }
+      });
+      on(event.data, "videoStart", (str) => {
+        console.log(str.active);
+        this.setState({ video: str.active });
       });
     };
   }
 
+  deleteDiv = () => {
+    document.getElementById("false").style.display = "none";
+    document.getElementById("but").style.display = "none";
+  };
+
   render() {
     const { afficheConnexion } = this.state;
     const { value } = this.state;
+    const { video } = this.state;
+
+    if (video === "playVideo") {
+      return <PageAttente />;
+    }
 
     if (afficheConnexion === false) {
       return (
@@ -79,17 +99,24 @@ class Connexion extends Component {
 
     return (
       <>
-        {/* <ContainerConnexionFalse>
-          Désolé mais le code que vous avez rentré ne correspond pas au code
-          généré par le jeu.
-          <br />
-          Veuillez réessayez avec le bon code.
+        <ContainerConnexionFalse id="false">
+          <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
+          <CrossText>
+            Désolé mais le code que vous avez rentré ne correspond pas au code
+            généré par le jeu.
+            <br />
+            Veuillez réessayez avec le bon code.
+          </CrossText>
         </ContainerConnexionFalse>
-        <ContainerConnexionTrue>
-          Votre connexion avec le jeu esr désormais active.
+        <ContainerConnexionTrue id="true">
+          Votre connexion avec le jeu est désormais active.
           <br />
-          Merci de patienter que les 4 joueurs se connectent.
-        </ContainerConnexionTrue> */}
+          Merci de patienter le temps que les 4 joueurs se connectent.
+        </ContainerConnexionTrue>
+        <ContainerConnexionTrueBut id="but">
+          <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
+          <CrossText> Le nombre de joueur est déjà à son maximum.</CrossText>
+        </ContainerConnexionTrueBut>
         <ConnexionContainer>
           <ConnexionTitle>Connexion</ConnexionTitle>
         </ConnexionContainer>

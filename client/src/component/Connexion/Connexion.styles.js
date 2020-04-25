@@ -1,8 +1,64 @@
 import styled from "styled-components";
 import fond from "../../img/inputFond.png";
+import backgroundDark from "../../img/background_dark.png";
 
-export const ContainerConnexionFalse = styled.div``;
-export const ContainerConnexionTrue = styled.div``;
+export const CrossCode = styled.img`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;
+
+export const CrossText = styled.p`
+  width: 80%;
+  margin: 0 auto;
+`;
+
+export const ContainerConnexionFalse = styled.div`
+  display: none;
+  width: 70%;
+  border-radius: 20px;
+  padding: 30px;
+  background-image: url(${backgroundDark});
+  background-size: cover;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Infini", sans-serif;
+  color: #d4a16e;
+  text-align: center;
+`;
+export const ContainerConnexionTrue = styled.div`
+  display: none;
+  width: 70%;
+  border-radius: 20px;
+  padding: 30px;
+  background-image: url(${backgroundDark});
+  background-size: cover;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Infini", sans-serif;
+  color: #d4a16e;
+  text-align: center;
+`;
+
+export const ContainerConnexionTrueBut = styled.div`
+  display: none;
+  width: 70%;
+  border-radius: 20px;
+  padding: 30px;
+  background-image: url(${backgroundDark});
+  background-size: cover;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Infini", sans-serif;
+  color: #d4a16e;
+  text-align: center;
+`;
 
 export const DivTouch = styled.div`
   display: flex;
@@ -94,10 +150,12 @@ export const ContainerInputConnexion = styled.div`
   width: 30%;
   height: 40px;
   background-image: url(${fond});
-  background-size: cover;
+  background-size: 60%;
   position: absolute;
   right: 0;
   margin-top: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 
 export const InputConnexion = styled.input`
@@ -105,6 +163,6 @@ export const InputConnexion = styled.input`
   font-size: 20px;
   color: #f8d5b1;
   position: relative;
-  left: 50px;
+  left: 68px;
   top: 3px;
 `;
