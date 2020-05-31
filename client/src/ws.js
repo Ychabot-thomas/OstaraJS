@@ -1,5 +1,5 @@
 // URL Serveur
-const URL = "ws:192.168.1.82:9000";
+const URL = "ws://ostaraserver.herokuapp.com/:9000";
 export const ws = new WebSocket(URL);
 
 // Convertisseurn send/emit ws --> socket.io

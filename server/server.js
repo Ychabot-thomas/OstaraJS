@@ -2,8 +2,17 @@
 
 const WebSocket = require("ws");
 
-const wss = new WebSocket.Server({ port: 9000 });
 
+const express = require('express');
+const http = require('http');
+
+const app = express();
+const server = http.Server(app);
+const wss = new WebSocket.Server({ server });
+
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + '/index.html');
+})
 // // Sauvergarde de data
 let codeDebut = 0;
 let user = 0;
@@ -22,14 +31,6 @@ wss.on("connection", function connection(ws) {
     ws.send(JSON.stringify({ eventName, ...data }));
   }
 
-  // function sendCinematique() {
-  //   send("debutCinematique", { quatre: true });
-  //   wss.clients.forEach(function each(client) {
-  //     if ((client != ws && client.readyState) === WebSocket.OPEN) {
-  //       client.send("debutCinematique");
-  //     }
-  //   });
-  // }
   console.log("joueur connecté");
 
   ws.on("message", function (str) {
@@ -59,7 +60,7 @@ wss.on("connection", function connection(ws) {
     });
 
     on(str, "videoMobilePlay", (data) => {
-      console.log(data.activeVideo);
+      // console.log(data.activeVideo);
       wss.clients.forEach(function each(client) {
         if (client != ws && client.readyState === WebSocket.OPEN) {
           function sendClient(eventName, data) {
@@ -94,6 +95,7 @@ wss.on("connection", function connection(ws) {
     });
 
     on(str, "jump", (data) => {
+      // console.log("juump : true")
       if (data.jump === true) {
         wss.clients.forEach(function each(client) {
           if (client != ws && client.readyState === WebSocket.OPEN) {
@@ -102,5 +104,9 @@ wss.on("connection", function connection(ws) {
         });
       }
     });
+    //
   });
 });
+
+
+server.listen(process.env.PORT || 9000);

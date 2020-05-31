@@ -42,7 +42,12 @@ class Connexion extends Component {
   };
 
   handleChange(event) {
-    this.setState({ value: parseInt(event.target.value) });
+    let values = this.state.value;
+    if (values == NaN) {
+      this.setState({ value: "" })
+    } else {
+      this.setState({ value: parseInt(event.target.value) });
+    }
   }
 
   handleSubmit(event) {
@@ -51,7 +56,7 @@ class Connexion extends Component {
     event.preventDefault();
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     ws.onmessage = (event) => {
       on(event.data, "verifCode", (str) => {
         if (str.verif === "code Accepté") {
@@ -102,20 +107,22 @@ class Connexion extends Component {
         <ContainerConnexionFalse id="false">
           <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
           <CrossText>
-            Désolé mais le code que vous avez rentré ne correspond pas au code
-            généré par le jeu.
-            <br />
-            Veuillez réessayez avec le bon code.
+            Code incorrect
           </CrossText>
         </ContainerConnexionFalse>
         <ContainerConnexionTrue id="true">
-          Votre connexion avec le jeu est désormais active.
+          Code correct !
           <br />
-          Merci de patienter le temps que les 4 joueurs se connectent.
+          Attendez que tous les joueurs se connectent
         </ContainerConnexionTrue>
         <ContainerConnexionTrueBut id="but">
           <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
-          <CrossText> Le nombre de joueur est déjà à son maximum.</CrossText>
+          <CrossText>
+            Code correct !
+            <br />
+            Mais le nombre de joueurs est à son maximum
+          </CrossText>
+          (Revenez jouez plus tard !)
         </ContainerConnexionTrueBut>
         <ConnexionContainer>
           <ConnexionTitle>Connexion</ConnexionTitle>

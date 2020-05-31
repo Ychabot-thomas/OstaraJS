@@ -4,8 +4,9 @@ import backgroundDark from "../../img/background_dark.png";
 
 export const CrossCode = styled.img`
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 10px;
+  width: 5%;
 `;
 
 export const CrossText = styled.p`
@@ -28,6 +29,7 @@ export const ContainerConnexionFalse = styled.div`
   color: #d4a16e;
   text-align: center;
 `;
+
 export const ContainerConnexionTrue = styled.div`
   display: none;
   width: 70%;
@@ -165,4 +167,6 @@ export const InputConnexion = styled.input`
   position: relative;
   left: 68px;
   top: 3px;
+  background: transparent;
+  border: none;
 `;
