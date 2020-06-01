@@ -43,7 +43,7 @@ class Connexion extends Component {
 
   handleChange(event) {
     let values = this.state.value;
-    if (values == NaN) {
+    if (values == "") {
       this.setState({ value: "" })
     } else {
       this.setState({ value: parseInt(event.target.value) });

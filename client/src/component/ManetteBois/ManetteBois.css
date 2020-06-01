@@ -2,3 +2,9 @@
     margin: 0;
     padding: 0;
 }
+
+#joystick{
+    position: absolute;
+    left: 25px;
+    bottom: 33px;
+}
