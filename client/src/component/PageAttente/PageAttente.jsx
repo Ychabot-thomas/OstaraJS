@@ -5,11 +5,18 @@ import { ws, on } from "../../ws";
 import { VideoAttente } from "./PageAttente.styles.js";
 
 class PageAttente extends React.Component {
-  state = {
-    finVideo: "",
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      client: props.idClient,
+      finVideo: ""
+    }
+    console.log(props.idClient);
+  }
 
   componentDidMount() {
+    // 2
+    // this.setState({ client: this.props.idClient });
     ws.onmessage = (event) => {
       on(event.data, "videoEnd", (str) => {
         console.log(str.desactive);
@@ -19,10 +26,12 @@ class PageAttente extends React.Component {
   }
 
   render() {
+    // 1
+    const { client } = this.state;
     const { finVideo } = this.state;
 
     if (finVideo === "endVideo") {
-      return <ManetteBois />;
+      return <ManetteBois client={client} />;
     }
 
     return (

@@ -24,8 +24,7 @@ class App extends Component {
   }
 
   render() {
-    const { width } = this.state;
-    const { height } = this.state;
+    const { width, height } = this.state;
     const tablet = 1024;
 
     console.log(width);

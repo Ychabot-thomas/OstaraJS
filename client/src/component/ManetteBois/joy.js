@@ -11,23 +11,27 @@ export const JoyStick = function (container, parameters) {
     height = undefined === parameters.height ? 0 : parameters.height,
     internalFillColor =
       undefined === parameters.internalFillColor
-        ? "#00AA00"
+        ? "#66350F"
         : parameters.internalFillColor,
     internalLineWidth =
       undefined === parameters.internalLineWidth
-        ? 2
+        ? 10
         : parameters.internalLineWidth,
     internalStrokeColor =
       undefined === parameters.internalStrokeColor
-        ? "#003300"
+        ? "#50290B"
         : parameters.internalStrokeColor,
+    // externalFillColor =
+    //   undefined === parameters.externalFillColor
+    //     ? "#FFF"
+    //     : parameters.externalFillColor,
     externalLineWidth =
       undefined === parameters.externalLineWidth
-        ? 2
+        ? 5
         : parameters.externalLineWidth,
     externalStrokeColor =
       undefined === parameters.externalStrokeColor
-        ? "#008000"
+        ? "#66350F"
         : parameters.externalStrokeColor,
     autoReturnToCenter =
       undefined === parameters.autoReturnToCenter
@@ -52,10 +56,10 @@ export const JoyStick = function (container, parameters) {
   var externalRadius = internalRadius + 30;
   var centerX = canvas.width / 2;
   var centerY = canvas.height / 2;
-  var directionHorizontalLimitPos = canvas.width / 10;
-  var directionHorizontalLimitNeg = directionHorizontalLimitPos * -1;
-  var directionVerticalLimitPos = canvas.height / 10;
-  var directionVerticalLimitNeg = directionVerticalLimitPos * -1;
+  // var directionHorizontalLimitPos = canvas.width / 10;
+  // var directionHorizontalLimitNeg = directionHorizontalLimitPos * -1;
+  // var directionVerticalLimitPos = canvas.height / 10;
+  // var directionVerticalLimitNeg = directionVerticalLimitPos * -1;
   // Used to save current position of stick
   var movedX = centerX;
   var movedY = centerY;
@@ -84,6 +88,7 @@ export const JoyStick = function (container, parameters) {
     context.arc(centerX, centerY, externalRadius, 0, circumference, false);
     context.lineWidth = externalLineWidth;
     context.strokeStyle = externalStrokeColor;
+    // context.fillStyle = externalFillColor;
     context.stroke();
   }
   /**
@@ -109,6 +114,7 @@ export const JoyStick = function (container, parameters) {
     );
     // Light color
     grd.addColorStop(0, internalFillColor);
+    // grd.addColorStop(0, externalFillColor);
     // Dark color
     grd.addColorStop(1, internalStrokeColor);
     context.fillStyle = grd;

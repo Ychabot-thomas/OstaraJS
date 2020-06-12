@@ -76,4 +76,24 @@ class Home extends Component {
 //   );
 // }
 
+// PROPS //
+
+// const CrossCode = (props) => {
+
+//   // const {id, src, onClick, className, borderColor} = props;
+
+//   const { borderColor, style, ...restProps} = props;
+
+//   const imgStyle = {
+//     position : "absolute",
+//     top : "10px",
+//     right : "10px",
+//     width : "5%",
+//     borderColor : borderColor,
+//     ...style
+//   }
+
+//   // return <img id={id} className={className} style={style} src={src} onClick={onClick} />
+//   return <img style={imgStyle} {...restProps}  />
+// }
 export default Home;

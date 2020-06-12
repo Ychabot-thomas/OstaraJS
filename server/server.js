@@ -13,9 +13,11 @@ const wss = new WebSocket.Server({ server });
 app.get("/", function (req, res) {
   res.sendFile(__dirname + '/index.html');
 })
+
 // // Sauvergarde de data
 let codeDebut = 0;
 let user = 0;
+let namePlayer = "";
 
 // // Convertisseur ws --> socket.io
 function on(str, eventName, action) {
@@ -38,16 +40,15 @@ wss.on("connection", function connection(ws) {
       codeDebut = data.codeUnity;
       console.log(data.codeUnity);
     });
-
     on(str, "codeClient", (data) => {
       if (codeDebut === data.code) {
         if (user <= 3) {
-          send("verifCode", { verif: "code Accepté" });
           user = user + 1;
           console.log(user);
+          send("verifCode", { verif: "code Accepté", idClient: user });
           wss.clients.forEach(function each(client) {
             if (client != ws && client.readyState === WebSocket.OPEN) {
-              client.send("player" + user);
+              client.send(JSON.stringify({ data: user, }));
             }
           });
         } else {
@@ -60,7 +61,7 @@ wss.on("connection", function connection(ws) {
     });
 
     on(str, "videoMobilePlay", (data) => {
-      // console.log(data.activeVideo);
+      console.log(data.activeVideo);
       wss.clients.forEach(function each(client) {
         if (client != ws && client.readyState === WebSocket.OPEN) {
           function sendClient(eventName, data) {
@@ -104,9 +105,32 @@ wss.on("connection", function connection(ws) {
         });
       }
     });
-    //
-  });
-});
 
+    on(str, "partageRessource", (data) => {
+      const { sendPlayer, pierre, graine, fruit, partageJoueur, } = data;
+
+      if (sendPlayer === 1) {
+        namePlayer = "sandr"
+      }
+      if (sendPlayer === 2) {
+        namePlayer = "démeter"
+      }
+      if (sendPlayer === 3) {
+        namePlayer = "iàn"
+      }
+      if (sendPlayer === 4) {
+        namePlayer = "seren"
+      }
+      send("partageRessource", { sendPlayer: namePlayer, pierre, graine, fruit, partageJoueur: 1 })
+    });
+
+
+
+  });
+
+  setInterval(() => {
+    ws.send(JSON.stringify({ type: false }));
+  }, 20000)
+});
 
 server.listen(process.env.PORT || 9000);

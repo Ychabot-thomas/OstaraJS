@@ -35,6 +35,7 @@ class Connexion extends Component {
     afficheConnexion: false,
     value: "",
     video: "",
+    client: 0
   };
 
   touchScreen = () => {
@@ -42,12 +43,7 @@ class Connexion extends Component {
   };
 
   handleChange(event) {
-    let values = this.state.value;
-    if (values == "") {
-      this.setState({ value: "" })
-    } else {
-      this.setState({ value: parseInt(event.target.value) });
-    }
+    this.setState({ value: parseInt(event.target.value) });
   }
 
   handleSubmit(event) {
@@ -61,6 +57,9 @@ class Connexion extends Component {
       on(event.data, "verifCode", (str) => {
         if (str.verif === "code Accepté") {
           document.getElementById("true").style.display = "block";
+          let idClient = str.idClient;
+          console.log(idClient);
+          this.setState({ client: idClient });
         }
         if (str.verif === "code Accepté Mais") {
           document.getElementById("but").style.display = "block";
@@ -87,7 +86,7 @@ class Connexion extends Component {
     const { video } = this.state;
 
     if (video === "playVideo") {
-      return <PageAttente />;
+      return <PageAttente idClient={this.state.client} />;
     }
 
     if (afficheConnexion === false) {
