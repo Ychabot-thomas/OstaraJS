@@ -50,6 +50,13 @@ import {
   Choice,
   TitleConcertation,
   SpanTitleConcertation,
+  ImgPlayer,
+  ContainerPlayer1,
+  ContainerPlayer2,
+  ContainerPlayer3,
+  ContainerPlayer4,
+  ButtonMoinsPlayer,
+  ButtonPlusPlayer
 } from "./ManetteBois.styles";
 import { CrossCode } from "../Connexion/Connexion.styles";
 import { JoyStick } from "./joy";
@@ -69,9 +76,13 @@ import croix from "../../img/croix.png";
 import choiceVoiture from "../../img/choiceVoiture.png";
 import choiceRosalie from "../../img/choiceRosalie.png";
 import btnVolume from "../../img/btnVolume.png";
+import joueur1 from "../../img/joueur1.png";
+import joueur2 from "../../img/joueur2.png";
+import joueur3 from "../../img/joueur3.png";
+import joueur4 from "../../img/joueur4.png";
 import "./ManetteBois.css";
 import { withStyles } from "@material-ui/core/styles";
-import Slider from "@material-ui/core/Slider";
+import SliderImage from "@material-ui/core/Slider";
 
 class Manette extends React.Component {
   constructor(props) {
@@ -93,14 +104,27 @@ class Manette extends React.Component {
       receptionGraine: 0,
       receptionFruit: 0,
       // PROD
-      // client: props.client,
+      client: props.client,
       // DEV
-      client: 1,
-      nameSendRessource: ""
+      // client: 1,
+      nameSendRessource: "",
+      slideActif: 0
     };
   }
 
   componentDidMount() {
+    if (this.state.client === 1) {
+      this.setState({ slideActif: 2 })
+    }
+    if (this.state.client === 2) {
+      this.setState({ slideActif: 3 })
+    }
+    if (this.state.client === 3) {
+      this.setState({ slideActif: 4 })
+    }
+    if (this.state.client === 4) {
+      this.setState({ slideActif: 1 })
+    }
     const Joy = new JoyStick("joy");
 
     const joystick = () => {
@@ -122,7 +146,6 @@ class Manette extends React.Component {
       on(event.data, "partageRessource", (str) => {
         //joueur 1 réception
         if (str.partageJoueur === this.state.client) {
-          console.log(str);
           this.setState(
             {
               nameSendRessource: str.sendPlayer,
@@ -202,7 +225,7 @@ class Manette extends React.Component {
         pierre: this.state.partagePierre,
         graine: this.state.partageGraine,
         fruit: this.state.partageFruit,
-        // partageJoueur: this.state.partageJoueur
+        partageJoueur: this.state.slideActif
       }
     );
     // console.log("nomJoueur : " + nomJoueur);
@@ -261,20 +284,22 @@ class Manette extends React.Component {
         height: 8,
         borderRadius: 4
       }
-    })(Slider);
+    })(SliderImage);
 
     const {
       afficheAtout,
       affichePartage,
       afficheRessource,
-      afficheConcertation
+      afficheConcertation,
+      slideActif,
+      client
     } = this.state
 
     // Prod
-    // let idJoueur = client;
+    let idJoueur = client;
 
     // Dev
-    let idJoueur = 1;
+    // let idJoueur = 1;
 
     if (idJoueur === 1) {
       return (
@@ -315,8 +340,8 @@ class Manette extends React.Component {
                     <VolumeTitleSettings>voix</VolumeTitleSettings>
                   </ContainerSettingsVolumeTitle>
                   <ContainerSettingsVolumeCursor>
-                    <PrettoSlider defaultValue={100} valueLabelDisplay="auto" />
-                    <PrettoSlider defaultValue={20} valueLabelDisplay="auto" />
+                    <PrettoSlider defaultValue={100} /* valueLabelDisplay="auto" */ />
+                    <PrettoSlider defaultValue={20} /* valueLabelDisplay="auto" */ />
                   </ContainerSettingsVolumeCursor>
                 </ContainerSettingsVolume>
                 <ContainerSettings>
@@ -370,9 +395,28 @@ class Manette extends React.Component {
                   </ControleRessourcePartage>
                 </RessourceContainerPartage>
                 <ContainerPlayerPartage>
-                  <ButtonMoinsPartage></ButtonMoinsPartage>
-                  <ChoosePlayer></ChoosePlayer>
-                  <ButtonPlusPartage></ButtonPlusPartage>
+                  <ChoosePlayer>
+                    {slideActif === 2 && (
+                      <ContainerPlayer2 >
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur2} alt="joueur2" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer2>
+                    )}
+                    {slideActif === 3 && (
+                      <ContainerPlayer3>
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur3} alt="joueur3" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer3>)}
+                    {slideActif === 4 && (
+                      <ContainerPlayer4>
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur4} alt="joueur4" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer4>
+                    )}
+                  </ChoosePlayer>
                 </ContainerPlayerPartage>
                 <ContainerButtonSubmitPartage>
                   <ButtonSubmitPartage type="button" value="Envoyer" onClick={this.partageRessource} />
@@ -483,9 +527,30 @@ class Manette extends React.Component {
                   </ControleRessourcePartage>
                 </RessourceContainerPartage>
                 <ContainerPlayerPartage>
-                  <ButtonMoinsPartage></ButtonMoinsPartage>
-                  <ChoosePlayer></ChoosePlayer>
-                  <ButtonPlusPartage></ButtonPlusPartage>
+                  <ContainerPlayerPartage>
+                    <ChoosePlayer>
+                      {slideActif === 1 && (
+                        <ContainerPlayer1>
+                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonMoinsPlayer>
+                          <ImgPlayer src={joueur1} alt="joueur1" />
+                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonPlusPlayer>
+                        </ContainerPlayer1>
+                      )}
+                      {slideActif === 3 && (
+                        <ContainerPlayer3>
+                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonMoinsPlayer>
+                          <ImgPlayer src={joueur3} alt="joueur3" />
+                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonPlusPlayer>
+                        </ContainerPlayer3>)}
+                      {slideActif === 4 && (
+                        <ContainerPlayer4>
+                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonMoinsPlayer>
+                          <ImgPlayer src={joueur4} alt="joueur4" />
+                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonPlusPlayer>
+                        </ContainerPlayer4>
+                      )}
+                    </ChoosePlayer>
+                  </ContainerPlayerPartage>
                 </ContainerPlayerPartage>
                 <ContainerButtonSubmitPartage>
                   <ButtonSubmitPartage type="button" value="Envoyer" onClick={this.partageRessource} />
@@ -594,9 +659,30 @@ class Manette extends React.Component {
                   </ControleRessourcePartage>
                 </RessourceContainerPartage>
                 <ContainerPlayerPartage>
-                  <ButtonMoinsPartage></ButtonMoinsPartage>
-                  <ChoosePlayer></ChoosePlayer>
-                  <ButtonPlusPartage></ButtonPlusPartage>
+                  <ContainerPlayerPartage>
+                    <ChoosePlayer>
+                      {slideActif === 1 && (
+                        <ContainerPlayer1>
+                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonMoinsPlayer>
+                          <ImgPlayer src={joueur1} alt="joueur1" />
+                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonPlusPlayer>
+                        </ContainerPlayer1>
+                      )}
+                      {slideActif === 2 && (
+                        <ContainerPlayer2>
+                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonMoinsPlayer>
+                          <ImgPlayer src={joueur3} alt="joueur2" />
+                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonPlusPlayer>
+                        </ContainerPlayer2>)}
+                      {slideActif === 4 && (
+                        <ContainerPlayer4>
+                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonMoinsPlayer>
+                          <ImgPlayer src={joueur4} alt="joueur4" />
+                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonPlusPlayer>
+                        </ContainerPlayer4>
+                      )}
+                    </ChoosePlayer>
+                  </ContainerPlayerPartage>
                 </ContainerPlayerPartage>
                 <ContainerButtonSubmitPartage>
                   <ButtonSubmitPartage type="button" value="Envoyer" onClick={this.partageRessource} />
@@ -706,9 +792,30 @@ class Manette extends React.Component {
                   </ControleRessourcePartage>
                 </RessourceContainerPartage>
                 <ContainerPlayerPartage>
-                  <ButtonMoinsPartage></ButtonMoinsPartage>
-                  <ChoosePlayer></ChoosePlayer>
-                  <ButtonPlusPartage></ButtonPlusPartage>
+                  <ContainerPlayerPartage>
+                    <ChoosePlayer>
+                      {slideActif === 1 && (
+                        <ContainerPlayer1>
+                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonMoinsPlayer>
+                          <ImgPlayer src={joueur1} alt="joueur1" />
+                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonPlusPlayer>
+                        </ContainerPlayer1>
+                      )}
+                      {slideActif === 2 && (
+                        <ContainerPlayer2>
+                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonMoinsPlayer>
+                          <ImgPlayer src={joueur2} alt="joueur2" />
+                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonPlusPlayer>
+                        </ContainerPlayer2>)}
+                      {slideActif === 3 && (
+                        <ContainerPlayer3>
+                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonMoinsPlayer>
+                          <ImgPlayer src={joueur3} alt="joueur3" />
+                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonPlusPlayer>
+                        </ContainerPlayer3>
+                      )}
+                    </ChoosePlayer>
+                  </ContainerPlayerPartage>
                 </ContainerPlayerPartage>
                 <ContainerButtonSubmitPartage>
                   <ButtonSubmitPartage type="button" value="Envoyer" onClick={this.partageRessource} />

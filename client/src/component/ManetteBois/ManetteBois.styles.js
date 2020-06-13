@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import fondMannetteJoueur1 from "../../img/joueur1.png";
+import fondMannetteJoueur1 from "../../img/joueur1_bois.png";
 import fondAtoutPlayer from "../../img/fondAtoutPlayer.png"
-import fondMannetteJoueur2 from "../../img/joueur2.png";
-import fondMannetteJoueur3 from "../../img/joueur3.png";
-import fondMannetteJoueur4 from "../../img/joueur4.png";
+import fondMannetteJoueur2 from "../../img/joueur2_bois.png";
+import fondMannetteJoueur3 from "../../img/joueur3_bois.png";
+import fondMannetteJoueur4 from "../../img/joueur4_bois.png";
 import button_jump from "../../img/button_jump.png";
 import fond from "../../img/inputFond.png";
 import card_conseil from "../../img/card_conseil.png";
@@ -304,14 +304,20 @@ export const RessourceNumber = styled.div`
 export const ContainerPlayerPartage = styled.div`
   display: flex;
   justify-content: space-around;
-  width: 60%;
+  width: 40%;
   position: absolute;
-  top: 50%;
-  right: 0px;
+  top: 170px;
+  right: 65px;
 `;
 
 export const ChoosePlayer = styled.div`
+  position: relative;
+  bottom: 90px;
+  left: 20px;
+`;
 
+export const ImgPlayer = styled.img`
+  width: 60%;
 `;
 
 export const AfficheRessourceRecuJ1 = styled.div`
@@ -441,4 +447,38 @@ export const SpanTitleConcertation = styled.span`
   ::after {
     margin-left: 50px;
   }
+`;
+
+export const ContainerPlayer1 = styled.div`
+  display: flex;
+`;
+
+export const ContainerPlayer2 = styled.div`
+  display: flex;
+`;
+
+export const ContainerPlayer3 = styled.div`
+  display: flex;
+`;
+
+export const ContainerPlayer4 = styled.div`
+  display: flex;
+`;
+
+export const ButtonMoinsPlayer = styled.div`
+  background-image: url(${flecheGauche});
+  height: 50px;
+  width: 30px;
+  background-repeat: no-repeat;
+  position: relative;
+  top: 110px
+`;
+
+export const ButtonPlusPlayer = styled.div`
+  background-image: url(${flecheDroite});
+  height: 50px;
+  width: 30px;
+  background-repeat: no-repeat;
+  position: relative;
+  top: 110px
 `;

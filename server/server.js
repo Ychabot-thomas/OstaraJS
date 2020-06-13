@@ -108,7 +108,7 @@ wss.on("connection", function connection(ws) {
 
     on(str, "partageRessource", (data) => {
       const { sendPlayer, pierre, graine, fruit, partageJoueur, } = data;
-
+      console.log(partageJoueur);
       if (sendPlayer === 1) {
         namePlayer = "sandr"
       }
@@ -121,7 +121,7 @@ wss.on("connection", function connection(ws) {
       if (sendPlayer === 4) {
         namePlayer = "seren"
       }
-      send("partageRessource", { sendPlayer: namePlayer, pierre, graine, fruit, partageJoueur: 1 })
+      send("partageRessource", { sendPlayer: namePlayer, pierre, graine, fruit, partageJoueur })
     });
 
 
