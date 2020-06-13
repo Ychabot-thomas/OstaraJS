@@ -15,7 +15,7 @@ export const CrossText = styled.p`
 `;
 
 export const ContainerConnexionFalse = styled.div`
-  display: none;
+  display: block;
   width: 70%;
   border-radius: 20px;
   padding: 30px;
@@ -31,7 +31,7 @@ export const ContainerConnexionFalse = styled.div`
 `;
 
 export const ContainerConnexionTrue = styled.div`
-  display: none;
+  display: block;
   width: 70%;
   border-radius: 20px;
   padding: 30px;
@@ -47,7 +47,7 @@ export const ContainerConnexionTrue = styled.div`
 `;
 
 export const ContainerConnexionTrueBut = styled.div`
-  display: none;
+  display: block;
   width: 70%;
   border-radius: 20px;
   padding: 30px;

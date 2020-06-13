@@ -24,29 +24,23 @@ import {
 } from "./Connexion.styles";
 
 class Connexion extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
   state = {
     afficheConnexion: false,
     value: "",
     video: "",
-    client: 0
-  };
+    client: 0,
+    verifCode: "",
+  }
 
   touchScreen = () => {
     this.setState({ afficheConnexion: true });
   };
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({ value: parseInt(event.target.value) });
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     // console.log("Le code envoyé est : " + this.state.value);
     send("codeClient", { code: this.state.value });
     event.preventDefault();
@@ -56,16 +50,15 @@ class Connexion extends Component {
     ws.onmessage = (event) => {
       on(event.data, "verifCode", (str) => {
         if (str.verif === "code Accepté") {
-          document.getElementById("true").style.display = "block";
           let idClient = str.idClient;
           console.log(idClient);
-          this.setState({ client: idClient });
+          this.setState({ client: idClient, verifCode: "success" });
         }
         if (str.verif === "code Accepté Mais") {
-          document.getElementById("but").style.display = "block";
+          this.setState({ verifCode: "errorMaxPlayer" });
         }
         if (str.verif === "Code refusé") {
-          document.getElementById("false").style.display = "block";
+          this.setState({ verifCode: "error" });
         }
       });
       on(event.data, "videoStart", (str) => {
@@ -76,17 +69,14 @@ class Connexion extends Component {
   }
 
   deleteDiv = () => {
-    document.getElementById("false").style.display = "none";
-    document.getElementById("but").style.display = "none";
+    this.setState({ verifCode: "" });
   };
 
   render() {
-    const { afficheConnexion } = this.state;
-    const { value } = this.state;
-    const { video } = this.state;
+    const { afficheConnexion, value, video, client, verifCode } = this.state;
 
     if (video === "playVideo") {
-      return <PageAttente idClient={this.state.client} />;
+      return <PageAttente idClient={client} />;
     }
 
     if (afficheConnexion === false) {
@@ -103,26 +93,35 @@ class Connexion extends Component {
 
     return (
       <>
-        <ContainerConnexionFalse id="false">
-          <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
-          <CrossText>
-            Code incorrect
+        {verifCode === "error" && (
+          <ContainerConnexionFalse>
+            <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
+            <CrossText>
+              Code incorrect
           </CrossText>
-        </ContainerConnexionFalse>
-        <ContainerConnexionTrue id="true">
-          Code correct !
-          <br />
-          Attendez que tous les joueurs se connectent
-        </ContainerConnexionTrue>
-        <ContainerConnexionTrueBut id="but">
-          <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
-          <CrossText>
+          </ContainerConnexionFalse>
+        )}
+
+        {verifCode === "success" && (
+          <ContainerConnexionTrue>
             Code correct !
+            <br />
+            Attendez que tous les joueurs se connectent
+          </ContainerConnexionTrue>
+        )}
+
+        {verifCode === "errorMaxPlayer" && (
+          <ContainerConnexionTrueBut>
+            <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
+            <CrossText>
+              Code correct !
             <br />
             Mais le nombre de joueurs est à son maximum
           </CrossText>
           (Revenez jouez plus tard !)
-        </ContainerConnexionTrueBut>
+          </ContainerConnexionTrueBut>
+        )}
+
         <ConnexionContainer>
           <ConnexionTitle>Connexion</ConnexionTitle>
         </ConnexionContainer>

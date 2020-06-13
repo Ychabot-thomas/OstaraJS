@@ -1,17 +1,17 @@
 import styled from "styled-components";
-import fondMannetteJoueur1 from "../../img/joueur1.png";
+import fondMannetteJoueur1 from "../../img/joueur1_desert.png";
 import fondAtoutPlayer from "../../img/fondAtoutPlayer.png"
-import fondMannetteJoueur2 from "../../img/joueur2.png";
-import fondMannetteJoueur3 from "../../img/joueur3.png";
-import fondMannetteJoueur4 from "../../img/joueur4.png";
+import fondMannetteJoueur2 from "../../img/joueur2_desert.png";
+import fondMannetteJoueur3 from "../../img/joueur3_desert.png";
+import fondMannetteJoueur4 from "../../img/joueur4_desert.png";
 import button_jump from "../../img/button_jump.png";
 import fond from "../../img/inputFond.png";
-import card_conseil from "../../img/card_conseil.png";
-import card_info from "../../img/card_infos.png";
+import card_conseil from "../../img/card_conseilV2.png";
+import card_info from "../../img/card_infosV2.png";
 import map from "../../img/map.png";
-import fondPartage from "../../img/fondPartage.png";
-import flecheGauche from "../../img/fleche_left.png";
-import flecheDroite from "../../img/fleche_right.png";
+import fondPartage from "../../img/fondPartageDesert.png";
+import flecheGauche from "../../img/fleche_left_desert.png";
+import flecheDroite from "../../img/fleche_right_desert.png";
 import receptionRessourceJ1 from "../../img/receptionRessourceJ1.png";
 import receptionRessourceJ2 from "../../img/receptionRessourceJ2.png";
 import receptionRessourceJ3 from "../../img/receptionRessourceJ3.png";
@@ -45,7 +45,7 @@ export const MannetteContainerJoueur2 = styled.div`
 
 export const ContainerCardConseil = styled.div`
   background-image: url(${card_conseil});
-  background-size: 85%;
+  background-size: 165%;
   background-repeat: repeat-x;
   height: 80vh;
   position: relative;
@@ -61,12 +61,12 @@ export const MannetteContainerJoueur3 = styled.div`
 
 export const ContainerCardInfo = styled.div`
   background-image: url(${card_info});
-  background-size: 55%;
+  background-size: 95%;
   background-repeat: repeat-x;
   height: 80vh;
   position: relative;
-  top: 30px;
-  left: 30px; 
+  top: 70px;
+  left: 80px;
 `;
 
 export const MannetteContainerJoueur4 = styled.div`
@@ -96,7 +96,7 @@ export const RessourceContainer = styled.div`
   align-items: center;
   font-family: Infini;
   font-size: 30px;
-  color: #fff;
+  color: #332419;
   position: relative;
   left: 20px;
 `;
@@ -113,7 +113,7 @@ export const NamePlayer = styled.div`
   font-family: Infini;
   font-weight: 500;
   font-size: 28px;
-  color: #EBCAA1;
+  color: #332419;
 `;
 
 export const InteractionPlayer = styled.div`
@@ -187,7 +187,6 @@ export const VolumeTitleSettings = styled.h2`
 export const ContainerSettingsVolumeCursor = styled.div`
   width: 270px
 `;
-
 export const ContainerSettings = styled.div`
   display: flex;
   justify-content: space-around;
@@ -231,7 +230,7 @@ export const PartagePlayer = styled.h1`
   left: 50%;
   font-family: Infini;
   font-weight: 500;
-  color: #EBCAA1;
+  color: #332419;
 `;
 
 export const ContainerButtonSubmitPartage = styled.div`
@@ -288,9 +287,9 @@ export const ImgRessource = styled.img`
 `;
 
 export const NbRessource = styled.div`
-  background-color: rgba(92,92,92,0.6);
+  background-color: #FFAC49;
   border-radius: 5px;
-  color: #F8D5B1;
+  color: #332419;
   font-family: Infini;
   font-size: 34px;
   width: 30px;
@@ -388,57 +387,4 @@ export const ContainerRessourceRecu = styled.div`
   position: relative;
   top: 110px;
   left: 180px;
-`;
-
-export const ContainerConcertation = styled.div`
-  display: block;
-  background-image: url(${fondAtoutPlayer});
-  background-size: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 100vw;
-  min-height: 100vh;
-`;
-
-export const ContainerChoice = styled.div`
-  display: flex;
-  justify-content: space-around;
-`;
-
-export const Choice = styled.img`
-  width: 40%;
-  position: relative;
-  top: 25px;
-`;
-
-export const TitleConcertation = styled.h1`
-  font-family: "Infini", sans-serif;
-  color: #D4A16E;
-  font-size: 20px;
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-transform: uppercase;
-`;
-
-export const SpanTitleConcertation = styled.span`
-  ::before,
-  ::after {
-    content: "";
-    width: 110px;
-    height: 2px;
-    background-color: #D4A16E;
-    position: absolute;
-    top: 50%;
-  }
-  ::before {
-    left: -150px;
-  }
-
-  ::after {
-    margin-left: 50px;
-  }
 `;

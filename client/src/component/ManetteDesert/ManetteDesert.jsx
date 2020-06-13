@@ -44,32 +44,26 @@ import {
   AfficheRessourceRecuJ4,
   CrossCodeRessource,
   TitleRessource,
-  ContainerRessourceRecu,
-  ContainerConcertation,
-  ContainerChoice,
-  Choice,
-  TitleConcertation,
-  SpanTitleConcertation,
-} from "./ManetteBois.styles";
+  ContainerRessourceRecu
+} from "./ManetteDesert.styles";
 import { CrossCode } from "../Connexion/Connexion.styles";
 import { JoyStick } from "./joy";
 import { ws, send, on } from "../../ws";
-import logo_pierre from "../../img/logo_pierre.png";
-import logo_graine from "../../img/logo_graine.png";
-import logo_fruit from "../../img/logo_fruit.png";
-import logo_pierrePartage from "../../img/logo_pierrePartage.png";
-import logo_grainePartage from "../../img/logo_grainePartage.png";
-import logo_fruitPartage from "../../img/logo_fruitPartage.png";
-import logo_partage from "../../img/logo_partage_ressource.png";
+import logo_pierre from "../../img/logo_pierreDesert.png";
+import logo_graine from "../../img/logo_graineDesert.png";
+import logo_fruit from "../../img/logo_fruitDesert.png";
+import logo_pierrePartage from "../../img/logo_pierrePartageDesert.png";
+import logo_grainePartage from "../../img/logo_grainePartageDesert.png";
+import logo_fruitPartage from "../../img/logo_fruitPartageDesert.png";
+import logo_partage from "../../img/logo_partage_ressourceDesert.png";
 import logo_parametre from "../../img/logo_parametre.png";
 import logo_conseil from "../../img/logo_conseils.png";
 import logo_information from "../../img/logo_informations.png";
 import logo_map from "../../img/logo_map.png";
 import croix from "../../img/croix.png";
-import choiceVoiture from "../../img/choiceVoiture.png";
-import choiceRosalie from "../../img/choiceRosalie.png";
+import croixDesert from "../../img/croixDesert.png";
 import btnVolume from "../../img/btnVolume.png";
-import "./ManetteBois.css";
+import "./ManetteDesert.css";
 import { withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 
@@ -80,7 +74,6 @@ class Manette extends React.Component {
       afficheAtout: false,
       affichePartage: false,
       afficheRessource: false,
-      afficheConcertation: false,
       X: 0,
       Y: 0,
       pierre: 6,
@@ -101,6 +94,32 @@ class Manette extends React.Component {
   }
 
   componentDidMount() {
+    // const PrettoSlider = withStyles({
+    //   root: {
+    //     color: "#467014",
+    //     height: 8
+    //   },
+    //   thumb: {
+    //     height: 24,
+    //     width: 24,
+    //     backgroundColor: "#D7A870",
+    //     border: "2px solid #66350F",
+    //     marginTop: -8,
+    //     marginLeft: -12,
+    //     "&:focus, &:hover, &$active": {
+    //       boxShadow: "inherit"
+    //     }
+    //   },
+    //   track: {
+    //     height: 8,
+    //     borderRadius: 4
+    //   },
+    //   rail: {
+    //     height: 8,
+    //     borderRadius: 4
+    //   }
+    // })(Slider);
+
     const Joy = new JoyStick("joy");
 
     const joystick = () => {
@@ -111,8 +130,12 @@ class Manette extends React.Component {
       let valueY = Joy.GetY();
 
       if (valueX !== this.state.X || valueY !== this.state.Y) {
-        // send("move", { x: valueX, y: valueY, joueur: this.state.client });
+        // send("move", { x: valueX, y: valueY });
       }
+
+      // this.setState({
+      //   client: this.props.client
+      // });
 
     };
 
@@ -223,14 +246,6 @@ class Manette extends React.Component {
     )
   };
 
-  choiceVoiture = () => {
-
-  }
-
-  choiceRosalie = () => {
-
-  }
-
   render() {
 
     const PrettoSlider = withStyles({
@@ -267,14 +282,13 @@ class Manette extends React.Component {
       afficheAtout,
       affichePartage,
       afficheRessource,
-      afficheConcertation
     } = this.state
 
     // Prod
     // let idJoueur = client;
 
     // Dev
-    let idJoueur = 1;
+    let idJoueur = 3;
 
     if (idJoueur === 1) {
       return (
@@ -347,7 +361,7 @@ class Manette extends React.Component {
                     </RessourcePart>
                   </RessourceContainer>
                   <PartagePlayer>PARTAGE</PartagePlayer>
-                  <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
+                  <CrossCode id="croix" src={croixDesert} onClick={this.deleteDiv} />
                 </ActionContainerJoueur>
                 <RessourceContainerPartage>
                   <ControleRessourcePartage>
@@ -392,15 +406,6 @@ class Manette extends React.Component {
                   <NbRessource>{this.state.receptionFruit}</NbRessource>
                 </ContainerRessourceRecu>
               </AfficheRessourceRecuJ1>
-            )}
-            {afficheConcertation === true && (
-              <ContainerConcertation>
-                <TitleSettings>CONCERTEZ-VOUS</TitleSettings>
-                <ContainerChoice>
-                  <Choice src={choiceVoiture} onClick={this.choiceVoiture} />
-                  <Choice src={choiceRosalie} onClick={this.choiceRosalie} />
-                </ContainerChoice>
-              </ContainerConcertation>
             )}
           </MannetteContainerJoueur1>
         </>
@@ -460,7 +465,7 @@ class Manette extends React.Component {
                     </RessourcePart>
                   </RessourceContainer>
                   <PartagePlayer>PARTAGE</PartagePlayer>
-                  <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
+                  <CrossCode id="croix" src={croixDesert} onClick={this.deleteDiv} />
                 </ActionContainerJoueur>
                 <RessourceContainerPartage>
                   <ControleRessourcePartage>
@@ -505,13 +510,6 @@ class Manette extends React.Component {
                   <NbRessource>{this.state.receptionFruit}</NbRessource>
                 </ContainerRessourceRecu>
               </AfficheRessourceRecuJ2>
-            )}
-            {afficheConcertation === true && (
-              <ContainerConcertation>
-                <TitleConcertation>
-                  <SpanTitleConcertation>concertez-vous</SpanTitleConcertation>
-                </TitleConcertation>
-              </ContainerConcertation>
             )}
           </MannetteContainerJoueur2>
         </>
@@ -571,7 +569,7 @@ class Manette extends React.Component {
                     </RessourcePart>
                   </RessourceContainer>
                   <PartagePlayer>PARTAGE</PartagePlayer>
-                  <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
+                  <CrossCode id="croix" src={croixDesert} onClick={this.deleteDiv} />
                 </ActionContainerJoueur>
                 <RessourceContainerPartage>
                   <ControleRessourcePartage>
@@ -616,13 +614,6 @@ class Manette extends React.Component {
                   <NbRessource>{this.state.receptionFruit}</NbRessource>
                 </ContainerRessourceRecu>
               </AfficheRessourceRecuJ3>
-            )}
-            {afficheConcertation === true && (
-              <ContainerConcertation>
-                <TitleConcertation>
-                  <SpanTitleConcertation>concertez-vous</SpanTitleConcertation>
-                </TitleConcertation>
-              </ContainerConcertation>
             )}
           </MannetteContainerJoueur3>
         </>
@@ -683,7 +674,7 @@ class Manette extends React.Component {
                     </RessourcePart>
                   </RessourceContainer>
                   <PartagePlayer>PARTAGE</PartagePlayer>
-                  <CrossCode id="croix" src={croix} onClick={this.deleteDiv} />
+                  <CrossCode id="croix" src={croixDesert} onClick={this.deleteDiv} />
                 </ActionContainerJoueur>
                 <RessourceContainerPartage>
                   <ControleRessourcePartage>
@@ -728,13 +719,6 @@ class Manette extends React.Component {
                   <NbRessource>{this.state.receptionFruit}</NbRessource>
                 </ContainerRessourceRecu>
               </AfficheRessourceRecuJ4>
-            )}
-            {afficheConcertation === true && (
-              <ContainerConcertation>
-                <TitleConcertation>
-                  <SpanTitleConcertation>concertez-vous</SpanTitleConcertation>
-                </TitleConcertation>
-              </ContainerConcertation>
             )}
           </MannetteContainerJoueur4>
         </>

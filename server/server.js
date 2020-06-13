@@ -85,7 +85,7 @@ wss.on("connection", function connection(ws) {
     });
 
     on(str, "move", (data) => {
-      // console.log("X : " + data.x + " / Y : " + data.y);
+      // console.log("X : " + data.x + " / Y : " + data.y + " / Joueur : " + data.joueur);
       let x = data.x;
       let y = data.y;
       wss.clients.forEach(function each(client) {

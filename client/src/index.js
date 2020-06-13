@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 // import App from "./component/App/App";
 import Manette from "./component/ManetteBois/ManetteBois";
+// import ManetteDesert from "./component/ManetteDesert/ManetteDesert";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(<Manette />, document.getElementById("root"));
