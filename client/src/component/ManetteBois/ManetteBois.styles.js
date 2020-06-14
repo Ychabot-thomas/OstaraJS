@@ -16,8 +16,9 @@ import receptionRessourceJ1 from "../../img/receptionRessourceJ1.png";
 import receptionRessourceJ2 from "../../img/receptionRessourceJ2.png";
 import receptionRessourceJ3 from "../../img/receptionRessourceJ3.png";
 import receptionRessourceJ4 from "../../img/receptionRessourceJ4.png";
-
-
+import buttonPlanter from "../../img/logo_planter.png";
+import buttonCueillir from "../../img/logo_cueillir.png";
+import buttonPluie from "../../img/logo_pluie.png";
 
 export const MannetteContainerJoueur1 = styled.div`
   background-image: url(${fondMannetteJoueur1}); 
@@ -481,4 +482,61 @@ export const ButtonPlusPlayer = styled.div`
   background-repeat: no-repeat;
   position: relative;
   top: 110px
+`;
+
+export const ContainerPlanter = styled.div`
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+  min-height: 100vh;
+  min-width: 100vw;
+`;
+
+export const IconPlanter = styled.div`
+  background-image: url(${buttonPlanter});
+  position: relative;
+  top: 110px;
+  left: 400px;
+  width: 130px;
+  height: 110px;
+`;
+
+export const ContainerRamasser = styled.div`
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+  min-height: 100vh;
+  min-width: 100vw;
+`;
+
+export const IconRamasser = styled.div`
+  background-image: url(${buttonCueillir});
+  position: relative;
+  top: 110px;
+  left: 400px;
+  width: 130px;
+  height: 110px;
+`;
+
+export const ContainerPluie = styled.div`
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+  min-height: 100vh;
+  min-width: 100vw;
+`;
+
+export const IconPluie = styled.div`
+  background-image: url(${buttonPluie});
+  position: relative;
+  top: 110px;
+  left: 400px;
+  width: 130px;
+  height: 110px;
 `;

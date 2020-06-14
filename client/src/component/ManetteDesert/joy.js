@@ -31,7 +31,7 @@ export const JoyStick = function (container, parameters) {
         : parameters.externalLineWidth,
     externalStrokeColor =
       undefined === parameters.externalStrokeColor
-        ? "#66350F"
+        ? "transparent"
         : parameters.externalStrokeColor,
     autoReturnToCenter =
       undefined === parameters.autoReturnToCenter

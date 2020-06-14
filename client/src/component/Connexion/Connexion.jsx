@@ -73,7 +73,13 @@ class Connexion extends Component {
   };
 
   render() {
-    const { afficheConnexion, value, video, client, verifCode } = this.state;
+    const {
+      afficheConnexion,
+      value,
+      video,
+      client,
+      verifCode
+    } = this.state;
 
     if (video === "playVideo") {
       return <PageAttente idClient={client} />;

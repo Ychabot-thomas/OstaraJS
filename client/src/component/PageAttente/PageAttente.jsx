@@ -11,7 +11,6 @@ class PageAttente extends React.Component {
       client: props.idClient,
       finVideo: ""
     }
-    console.log(props.idClient);
   }
 
   componentDidMount() {
@@ -27,8 +26,7 @@ class PageAttente extends React.Component {
 
   render() {
     // 1
-    const { client } = this.state;
-    const { finVideo } = this.state;
+    const { client, finVideo } = this.state;
 
     if (finVideo === "endVideo") {
       return <ManetteBois client={client} />;

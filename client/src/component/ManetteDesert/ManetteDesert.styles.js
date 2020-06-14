@@ -303,14 +303,16 @@ export const RessourceNumber = styled.div`
 export const ContainerPlayerPartage = styled.div`
   display: flex;
   justify-content: space-around;
-  width: 60%;
+  width: 40%;
   position: absolute;
-  top: 50%;
-  right: 0px;
+  top: 170px;
+  right: 65px;
 `;
 
 export const ChoosePlayer = styled.div`
-
+  position: relative;
+  bottom: 90px;
+  left: 20px;
 `;
 
 export const AfficheRessourceRecuJ1 = styled.div`
@@ -387,4 +389,42 @@ export const ContainerRessourceRecu = styled.div`
   position: relative;
   top: 110px;
   left: 180px;
+`;
+
+export const ContainerPlayer1 = styled.div`
+  display: flex;
+`;
+
+export const ContainerPlayer2 = styled.div`
+  display: flex;
+`;
+
+export const ContainerPlayer3 = styled.div`
+  display: flex;
+`;
+
+export const ContainerPlayer4 = styled.div`
+  display: flex;
+`;
+
+export const ButtonMoinsPlayer = styled.div`
+  background-image: url(${flecheGauche});
+  height: 50px;
+  width: 30px;
+  background-repeat: no-repeat;
+  position: relative;
+  top: 110px
+`;
+
+export const ButtonPlusPlayer = styled.div`
+  background-image: url(${flecheDroite});
+  height: 50px;
+  width: 30px;
+  background-repeat: no-repeat;
+  position: relative;
+  top: 110px
+`;
+
+export const ImgPlayer = styled.img`
+  width: 60%;
 `;

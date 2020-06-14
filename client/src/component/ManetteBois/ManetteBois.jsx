@@ -56,7 +56,13 @@ import {
   ContainerPlayer3,
   ContainerPlayer4,
   ButtonMoinsPlayer,
-  ButtonPlusPlayer
+  ButtonPlusPlayer,
+  ContainerPlanter,
+  ContainerRamasser,
+  ContainerPluie,
+  IconPlanter,
+  IconRamasser,
+  IconPluie
 } from "./ManetteBois.styles";
 import { CrossCode } from "../Connexion/Connexion.styles";
 import { JoyStick } from "./joy";
@@ -83,6 +89,7 @@ import joueur4 from "../../img/joueur4.png";
 import "./ManetteBois.css";
 import { withStyles } from "@material-ui/core/styles";
 import SliderImage from "@material-ui/core/Slider";
+import ManetteDesert from "../ManetteDesert/ManetteDesert";
 
 class Manette extends React.Component {
   constructor(props) {
@@ -92,11 +99,15 @@ class Manette extends React.Component {
       affichePartage: false,
       afficheRessource: false,
       afficheConcertation: false,
+      afficheButtonPlanter: false,
+      afficheButtonRamasser: false,
+      afficheButttonPluie: false,
+      changementManette: false,
       X: 0,
       Y: 0,
-      pierre: 6,
-      graine: 6,
-      fruit: 6,
+      pierre: 0,
+      graine: 0,
+      fruit: 0,
       partagePierre: 0,
       partageGraine: 0,
       partageFruit: 0,
@@ -108,7 +119,7 @@ class Manette extends React.Component {
       // DEV
       // client: 1,
       nameSendRessource: "",
-      slideActif: 0
+      slideActif: 0,
     };
   }
 
@@ -125,6 +136,7 @@ class Manette extends React.Component {
     if (this.state.client === 4) {
       this.setState({ slideActif: 1 })
     }
+
     const Joy = new JoyStick("joy");
 
     const joystick = () => {
@@ -246,6 +258,18 @@ class Manette extends React.Component {
     )
   };
 
+  planterGraine = () => {
+    console.log("Planter Graine");
+  }
+
+  ramasserFruit = () => {
+    console.log("Ramasser Graine");
+  }
+
+  pluie = () => {
+    console.log("Pluie");
+  }
+
   choiceVoiture = () => {
 
   }
@@ -291,8 +315,15 @@ class Manette extends React.Component {
       affichePartage,
       afficheRessource,
       afficheConcertation,
+      afficheButtonPlanter,
+      afficheButtonRamasser,
+      afficheButttonPluie,
+      changementManette,
       slideActif,
-      client
+      client,
+      pierre,
+      graine,
+      fruit
     } = this.state
 
     // Prod
@@ -446,6 +477,21 @@ class Manette extends React.Component {
                 </ContainerChoice>
               </ContainerConcertation>
             )}
+            {afficheButtonPlanter === true && (
+              <ContainerPlanter>
+                <IconPlanter onClick={this.planterGraine}></IconPlanter>
+              </ContainerPlanter>
+            )}
+            {afficheButtonRamasser === true && (
+              <ContainerRamasser>
+                <IconRamasser onClick={this.ramasserFruit}></IconRamasser>
+              </ContainerRamasser>
+            )}
+            {afficheButttonPluie === true && (
+              <ContainerPluie>
+                <IconPluie onClick={this.pluie}></IconPluie>
+              </ContainerPluie>
+            )}
           </MannetteContainerJoueur1>
         </>
       );
@@ -527,30 +573,28 @@ class Manette extends React.Component {
                   </ControleRessourcePartage>
                 </RessourceContainerPartage>
                 <ContainerPlayerPartage>
-                  <ContainerPlayerPartage>
-                    <ChoosePlayer>
-                      {slideActif === 1 && (
-                        <ContainerPlayer1>
-                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonMoinsPlayer>
-                          <ImgPlayer src={joueur1} alt="joueur1" />
-                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonPlusPlayer>
-                        </ContainerPlayer1>
-                      )}
-                      {slideActif === 3 && (
-                        <ContainerPlayer3>
-                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonMoinsPlayer>
-                          <ImgPlayer src={joueur3} alt="joueur3" />
-                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonPlusPlayer>
-                        </ContainerPlayer3>)}
-                      {slideActif === 4 && (
-                        <ContainerPlayer4>
-                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonMoinsPlayer>
-                          <ImgPlayer src={joueur4} alt="joueur4" />
-                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonPlusPlayer>
-                        </ContainerPlayer4>
-                      )}
-                    </ChoosePlayer>
-                  </ContainerPlayerPartage>
+                  <ChoosePlayer>
+                    {slideActif === 1 && (
+                      <ContainerPlayer1>
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur1} alt="joueur1" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer1>
+                    )}
+                    {slideActif === 3 && (
+                      <ContainerPlayer3>
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur3} alt="joueur3" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer3>)}
+                    {slideActif === 4 && (
+                      <ContainerPlayer4>
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur4} alt="joueur4" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer4>
+                    )}
+                  </ChoosePlayer>
                 </ContainerPlayerPartage>
                 <ContainerButtonSubmitPartage>
                   <ButtonSubmitPartage type="button" value="Envoyer" onClick={this.partageRessource} />
@@ -577,6 +621,21 @@ class Manette extends React.Component {
                   <SpanTitleConcertation>concertez-vous</SpanTitleConcertation>
                 </TitleConcertation>
               </ContainerConcertation>
+            )}
+            {afficheButtonPlanter === true && (
+              <ContainerPlanter>
+                <IconPlanter onClick={this.planterGraine}></IconPlanter>
+              </ContainerPlanter>
+            )}
+            {afficheButtonRamasser === true && (
+              <ContainerRamasser>
+                <IconRamasser onClick={this.ramasserFruit}></IconRamasser>
+              </ContainerRamasser>
+            )}
+            {afficheButttonPluie === true && (
+              <ContainerPluie>
+                <IconPluie onClick={this.pluie}></IconPluie>
+              </ContainerPluie>
             )}
           </MannetteContainerJoueur2>
         </>
@@ -659,30 +718,28 @@ class Manette extends React.Component {
                   </ControleRessourcePartage>
                 </RessourceContainerPartage>
                 <ContainerPlayerPartage>
-                  <ContainerPlayerPartage>
-                    <ChoosePlayer>
-                      {slideActif === 1 && (
-                        <ContainerPlayer1>
-                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonMoinsPlayer>
-                          <ImgPlayer src={joueur1} alt="joueur1" />
-                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonPlusPlayer>
-                        </ContainerPlayer1>
-                      )}
-                      {slideActif === 2 && (
-                        <ContainerPlayer2>
-                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonMoinsPlayer>
-                          <ImgPlayer src={joueur3} alt="joueur2" />
-                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonPlusPlayer>
-                        </ContainerPlayer2>)}
-                      {slideActif === 4 && (
-                        <ContainerPlayer4>
-                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonMoinsPlayer>
-                          <ImgPlayer src={joueur4} alt="joueur4" />
-                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonPlusPlayer>
-                        </ContainerPlayer4>
-                      )}
-                    </ChoosePlayer>
-                  </ContainerPlayerPartage>
+                  <ChoosePlayer>
+                    {slideActif === 1 && (
+                      <ContainerPlayer1>
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur1} alt="joueur1" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer1>
+                    )}
+                    {slideActif === 2 && (
+                      <ContainerPlayer2>
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur3} alt="joueur2" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer2>)}
+                    {slideActif === 4 && (
+                      <ContainerPlayer4>
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur4} alt="joueur4" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer4>
+                    )}
+                  </ChoosePlayer>
                 </ContainerPlayerPartage>
                 <ContainerButtonSubmitPartage>
                   <ButtonSubmitPartage type="button" value="Envoyer" onClick={this.partageRessource} />
@@ -709,6 +766,21 @@ class Manette extends React.Component {
                   <SpanTitleConcertation>concertez-vous</SpanTitleConcertation>
                 </TitleConcertation>
               </ContainerConcertation>
+            )}
+            {afficheButtonPlanter === true && (
+              <ContainerPlanter>
+                <IconPlanter onClick={this.planterGraine}></IconPlanter>
+              </ContainerPlanter>
+            )}
+            {afficheButtonRamasser === true && (
+              <ContainerRamasser>
+                <IconRamasser onClick={this.ramasserFruit}></IconRamasser>
+              </ContainerRamasser>
+            )}
+            {afficheButttonPluie === true && (
+              <ContainerPluie>
+                <IconPluie onClick={this.pluie}></IconPluie>
+              </ContainerPluie>
             )}
           </MannetteContainerJoueur3>
         </>
@@ -792,30 +864,28 @@ class Manette extends React.Component {
                   </ControleRessourcePartage>
                 </RessourceContainerPartage>
                 <ContainerPlayerPartage>
-                  <ContainerPlayerPartage>
-                    <ChoosePlayer>
-                      {slideActif === 1 && (
-                        <ContainerPlayer1>
-                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonMoinsPlayer>
-                          <ImgPlayer src={joueur1} alt="joueur1" />
-                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonPlusPlayer>
-                        </ContainerPlayer1>
-                      )}
-                      {slideActif === 2 && (
-                        <ContainerPlayer2>
-                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonMoinsPlayer>
-                          <ImgPlayer src={joueur2} alt="joueur2" />
-                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonPlusPlayer>
-                        </ContainerPlayer2>)}
-                      {slideActif === 3 && (
-                        <ContainerPlayer3>
-                          <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonMoinsPlayer>
-                          <ImgPlayer src={joueur3} alt="joueur3" />
-                          <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonPlusPlayer>
-                        </ContainerPlayer3>
-                      )}
-                    </ChoosePlayer>
-                  </ContainerPlayerPartage>
+                  <ChoosePlayer>
+                    {slideActif === 1 && (
+                      <ContainerPlayer1>
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur1} alt="joueur1" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer1>
+                    )}
+                    {slideActif === 2 && (
+                      <ContainerPlayer2>
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur2} alt="joueur2" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 3 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer2>)}
+                    {slideActif === 3 && (
+                      <ContainerPlayer3>
+                        <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 2 }) }}></ButtonMoinsPlayer>
+                        <ImgPlayer src={joueur3} alt="joueur3" />
+                        <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonPlusPlayer>
+                      </ContainerPlayer3>
+                    )}
+                  </ChoosePlayer>
                 </ContainerPlayerPartage>
                 <ContainerButtonSubmitPartage>
                   <ButtonSubmitPartage type="button" value="Envoyer" onClick={this.partageRessource} />
@@ -843,9 +913,30 @@ class Manette extends React.Component {
                 </TitleConcertation>
               </ContainerConcertation>
             )}
+            {afficheButtonPlanter === true && (
+              <ContainerPlanter>
+                <IconPlanter onClick={this.planterGraine}></IconPlanter>
+              </ContainerPlanter>
+            )}
+            {afficheButtonRamasser === true && (
+              <ContainerRamasser>
+                <IconRamasser onClick={this.ramasserFruit}></IconRamasser>
+              </ContainerRamasser>
+            )}
+            {afficheButttonPluie === true && (
+              <ContainerPluie>
+                <IconPluie onClick={this.pluie}></IconPluie>
+              </ContainerPluie>
+            )}
           </MannetteContainerJoueur4>
         </>
       );
+    }
+
+    if (idJoueur === client && changementManette === true) {
+      return (
+        <ManetteDesert client={client} pierre={pierre} graine={graine} fruit={fruit} />
+      )
     }
   }
 }
