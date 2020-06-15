@@ -34,7 +34,7 @@ class PageAttente extends React.Component {
 
     return (
       <>
-        <VideoAttente id="video" autoPlay muted>
+        <VideoAttente id="video" autoPlay muted playsinline>
           <source src={chargement} type="video/mp4"></source>
         </VideoAttente>
       </>

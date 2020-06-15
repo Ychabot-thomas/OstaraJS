@@ -8,7 +8,7 @@ import button_jump from "../../img/button_jump.png";
 import fond from "../../img/inputFond.png";
 import card_conseil from "../../img/card_conseilV2.png";
 import card_info from "../../img/card_infosV2.png";
-import map from "../../img/map.png";
+import map from "../../img/mapDesert.png";
 import fondPartage from "../../img/fondPartageDesert.png";
 import flecheGauche from "../../img/fleche_left_desert.png";
 import flecheDroite from "../../img/fleche_right_desert.png";

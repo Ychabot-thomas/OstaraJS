@@ -89,7 +89,7 @@ import joueur4 from "../../img/joueur4.png";
 import "./ManetteBois.css";
 import { withStyles } from "@material-ui/core/styles";
 import SliderImage from "@material-ui/core/Slider";
-import ManetteDesert from "../ManetteDesert/ManetteDesert";
+import PageAttenteObstacle from "../PageAttenteObstacle/PageAttenteObstacle";
 
 class Manette extends React.Component {
   constructor(props) {
@@ -106,7 +106,7 @@ class Manette extends React.Component {
       X: 0,
       Y: 0,
       pierre: 0,
-      graine: 0,
+      graine: 2,
       fruit: 0,
       partagePierre: 0,
       partageGraine: 0,
@@ -114,12 +114,14 @@ class Manette extends React.Component {
       receptionPierre: 0,
       receptionGraine: 0,
       receptionFruit: 0,
+      jump: false,
       // PROD
-      client: props.client,
+      // client: props.client,
       // DEV
-      // client: 1,
-      nameSendRessource: "",
+      client: 1,
+      // nameSendRessource: "",
       slideActif: 0,
+      choiceObstacle: ""
     };
   }
 
@@ -137,6 +139,7 @@ class Manette extends React.Component {
       this.setState({ slideActif: 1 })
     }
 
+    // send()
     const Joy = new JoyStick("joy");
 
     const joystick = () => {
@@ -147,16 +150,20 @@ class Manette extends React.Component {
       let valueY = Joy.GetY();
 
       if (valueX !== this.state.X || valueY !== this.state.Y) {
-        // send("move", { x: valueX, y: valueY, joueur: this.state.client });
+        send("move", { x: valueX, y: valueY, joueur: this.state.client });
       }
 
     };
 
-    setInterval(joystick, 100);
+
+    setInterval(joystick, 500);
 
     ws.onmessage = (event) => {
+      on(event.data, "returnFalseJump", (str) => {
+        this.setState({ jump: false })
+      });
       on(event.data, "partageRessource", (str) => {
-        //joueur 1 réception
+        //joueur 1 réception 
         if (str.partageJoueur === this.state.client) {
           this.setState(
             {
@@ -168,47 +175,91 @@ class Manette extends React.Component {
             }
           );
         }
+      });
 
-        // joueur 2 réception
-        if (str.partageJoueur === this.state.client) {
+      on(event.data, "addPierre", (str) => {
+        if (str.idPlayer === this.state.client) {
+          let addPierre = str.addCristal;
           this.setState(
             {
-              receptionPierre: str.pierre,
-              receptionGraine: str.graine,
-              receptionFruit: str.fruit,
-              afficheRessource: true
+              pierre: this.state.pierre + addPierre
             }
           );
         }
+      });
 
-        // joueur 3 réception
-        if (str.partageJoueur === this.state.client) {
+      on(event.data, "addGraine", (str) => {
+        if (str.idPlayer === this.state.client) {
+          // console.log(str);
           this.setState(
             {
-              receptionPierre: str.pierre,
-              receptionGraine: str.graine,
-              receptionFruit: str.fruit,
-              afficheRessource: true
+              graine: this.state.graine + 1
             }
           );
         }
+      });
 
-        // joueur 4 réception
-        if (str.partageJoueur === this.state.client) {
+      on(event.data, "addFruit", (str) => {
+        if (str.idPlayer === this.state.client) {
           this.setState(
             {
-              receptionPierre: str.pierre,
-              receptionGraine: str.graine,
-              receptionFruit: str.fruit,
-              afficheRessource: true
+              fruit: this.state.fruit + 3
             }
           );
+        }
+      });
+
+      on(event.data, "choicePasseur", (str) => {
+        this.setState({ afficheConcertation: true })
+      });
+
+      on(event.data, "ContainerPlanter", (str) => {
+        this.setState({ afficheButtonPlanter: true });
+      })
+
+      on(event.data, "containerConcertation", (str) => {
+        this.setState({ afficheConcertation: false })
+        console.log(this.state.choiceObstacle);
+      })
+
+      on(event.data, "containerObstacleAttente", (str) => {
+        console.log(str);
+        const { changeChoiceObstacle } = str;
+        this.setState({
+          choiceObstacle: changeChoiceObstacle,
+          changementManette: true
+        })
+        console.log(this.state.changementManette);
+        if (this.state.choiceObstacle === "voiture") {
+          this.setState({
+            pierre: this.state.pierre - 3,
+          })
+        }
+
+        if (this.state.choiceObstacle === "rosalie") {
+          this.setState({
+            fruit: this.state.fruit - 3,
+          })
         }
       })
     };
   }
 
+  componentDidUpdate() {
+    const monnaieUnity = () => {
+      send("monnaieUnity", {
+        sendPlayer: this.state.client,
+        pierre: this.state.pierre,
+        graine: this.state.graine,
+        fruit: this.state.fruit,
+      });
+    }
+
+    setInterval(monnaieUnity, 1000);
+  }
+
   sauter = () => {
+    this.setState({ jump: true })
     send("jump", { jump: true });
   };
 
@@ -229,7 +280,10 @@ class Manette extends React.Component {
     this.setState({
       pierre: this.state.pierre - this.state.partagePierre,
       graine: this.state.graine - this.state.partageGraine,
-      fruit: this.state.fruit - this.state.partageFruit
+      fruit: this.state.fruit - this.state.partageFruit,
+      partagePierre: 0,
+      partageGraine: 0,
+      partageFruit: 0
     })
     send("partageRessource",
       {
@@ -260,22 +314,32 @@ class Manette extends React.Component {
 
   planterGraine = () => {
     console.log("Planter Graine");
+    send('plante', { joueur: this.state.client, planter: true })
   }
 
   ramasserFruit = () => {
-    console.log("Ramasser Graine");
+    console.log("Ramasser Fruit");
+    send('recolte', { joueur: this.state.client, recolte: true })
   }
 
   pluie = () => {
     console.log("Pluie");
+    send('pluie', { joueur: this.state.client, pluie: true })
   }
 
   choiceVoiture = () => {
+    send("choiceObstacle", { choice: "voiture" });
+    this.setState({
+      choiceObstacle: "voiture"
+    });
 
   }
 
   choiceRosalie = () => {
-
+    send("choiceObstacle", { choice: "rosalie" });
+    this.setState({
+      choiceObstacle: "rosalie"
+    });
   }
 
   render() {
@@ -323,7 +387,8 @@ class Manette extends React.Component {
       client,
       pierre,
       graine,
-      fruit
+      fruit,
+      choiceObstacle
     } = this.state
 
     // Prod
@@ -331,6 +396,12 @@ class Manette extends React.Component {
 
     // Dev
     // let idJoueur = 1;
+
+    if (idJoueur === client && changementManette === true) {
+      return (
+        <PageAttenteObstacle client={client} pierre={pierre} graine={graine} fruit={fruit} choicePasseur={choiceObstacle} />
+      )
+    }
 
     if (idJoueur === 1) {
       return (
@@ -372,7 +443,6 @@ class Manette extends React.Component {
                   </ContainerSettingsVolumeTitle>
                   <ContainerSettingsVolumeCursor>
                     <PrettoSlider defaultValue={100} /* valueLabelDisplay="auto" */ />
-                    <PrettoSlider defaultValue={20} /* valueLabelDisplay="auto" */ />
                   </ContainerSettingsVolumeCursor>
                 </ContainerSettingsVolume>
                 <ContainerSettings>
@@ -729,7 +799,7 @@ class Manette extends React.Component {
                     {slideActif === 2 && (
                       <ContainerPlayer2>
                         <ButtonMoinsPlayer onClick={() => { this.setState({ slideActif: 1 }) }}></ButtonMoinsPlayer>
-                        <ImgPlayer src={joueur3} alt="joueur2" />
+                        <ImgPlayer src={joueur2} alt="joueur2" />
                         <ButtonPlusPlayer onClick={() => { this.setState({ slideActif: 4 }) }}></ButtonPlusPlayer>
                       </ContainerPlayer2>)}
                     {slideActif === 4 && (
@@ -931,12 +1001,6 @@ class Manette extends React.Component {
           </MannetteContainerJoueur4>
         </>
       );
-    }
-
-    if (idJoueur === client && changementManette === true) {
-      return (
-        <ManetteDesert client={client} pierre={pierre} graine={graine} fruit={fruit} />
-      )
     }
   }
 }

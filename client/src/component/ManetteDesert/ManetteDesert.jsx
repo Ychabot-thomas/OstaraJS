@@ -104,7 +104,7 @@ class Manette extends React.Component {
       // client: 4,
       nameSendRessource: "",
       slideActif: 0,
-      choice: ""
+      choice: props.impactFinal
     };
   }
 
@@ -141,6 +141,7 @@ class Manette extends React.Component {
 
     ws.onmessage = (event) => {
       on(event.data, "partageRessource", (str) => {
+        console.log(str.partageJoueur);
         //joueur 1 réception
         if (str.partageJoueur === this.state.client) {
           console.log(str);
@@ -331,7 +332,6 @@ class Manette extends React.Component {
                   </ContainerSettingsVolumeTitle>
                   <ContainerSettingsVolumeCursor>
                     <PrettoSlider defaultValue={100} valueLabelDisplay="auto" />
-                    <PrettoSlider defaultValue={20} valueLabelDisplay="auto" />
                   </ContainerSettingsVolumeCursor>
                 </ContainerSettingsVolume>
                 <ContainerSettings>
