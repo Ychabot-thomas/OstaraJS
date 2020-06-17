@@ -1,5 +1,5 @@
 import React from 'react';
-import { ws } from "../../ws";
+import { ws, send } from "../../ws";
 import {
   ContainerImpactFinal,
   QuitGame,
@@ -27,6 +27,7 @@ class ImpactFinalVoiture extends React.Component {
   }
 
   quitGame = () => {
+    send("quitGame", { data: "quit" })
     console.log("QuitGame");
   }
 

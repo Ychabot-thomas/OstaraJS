@@ -20,6 +20,7 @@ let namePlayer = "";
 let nbPlayerPlante = 0;
 let nbPlayerDansePluie = 0;
 let nbPlayerRecolte = 0;
+let nbPlayerFinsihMap = 0;
 // let afficheConnexion = false;
 
 // // Convertisseur ws --> socket.io
@@ -39,6 +40,14 @@ wss.on("connection", function connection(ws) {
   console.log("joueur connecté");
 
   ws.on("message", function (str) {
+    on(str, "quitGame", (data) => {
+      wss.clients.forEach(function each(client) {
+        if (client != ws && client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ data }));
+          console.log(data.data);
+        }
+      });
+    });
 
     on(str, "codeRandom", (data) => {
       codeDebut = data.codeUnity;
@@ -90,24 +99,27 @@ wss.on("connection", function connection(ws) {
     });
 
     on(str, "move", (data) => {
-      // console.log("X : " + data.x + " / Y : " + data.y + " / Joueur : " + data.joueur);
+      console.log("X : " + data.x + " / Y : " + data.y + " / Joueur : " + data.joueur);
       let x = data.x;
       let y = data.y;
+      let joueur = data.joueur;
       wss.clients.forEach(function each(client) {
         if (client != ws && client.readyState === WebSocket.OPEN) {
           // console.log("DODO3");
-          client.send(JSON.stringify({ data: "X" + x + "Y" + y }));
+          client.send(JSON.stringify({ data: "X" + x + "Y" + y + joueur }));
         }
       });
+
     });
 
     on(str, "jump", (data) => {
       if (data.jump === true) {
+        let joueur = data.joueur;
         send("returnFalseJump", { jump: false })
         wss.clients.forEach(function each(client) {
           if (client != ws && client.readyState === WebSocket.OPEN) {
             // console.log("jump")
-            client.send(JSON.stringify({ data: "jump" }));
+            client.send(JSON.stringify({ data: "jump" + joueur }));
           }
         });
       }
@@ -147,14 +159,8 @@ wss.on("connection", function connection(ws) {
             client.send(JSON.stringify({ eventName, ...data }));
           }
           sendClient("partageRessource", { sendPlayer: namePlayer, pierre, graine, fruit, partageJoueur: recuPlayer });
-          // clien.send(JSON.stringify({ id: 1, pierres: 1, graines: 1, fruits: 1 }));
         }
       });
-      // wss.clients.forEach(function each(client) {
-      //   if (client != ws && client.readyState === WebSocket.OPEN) {
-      //     client.send(JSON.stringify({ type: "RESSOURCES", sendPlayer: namePlayer, pierre, graine, fruit, partageJoueur: recuPlayer }));
-      //   }
-      // });
     });
 
     on(str, "collectCristaux", (data) => {
@@ -203,23 +209,47 @@ wss.on("connection", function connection(ws) {
         wss.clients.forEach(function each(client) {
           if (client != ws && client.readyState === WebSocket.OPEN) {
             console.log("plante OK");
-            client.send(JSON.stringify({ data: "plante" }));
+            client.send(JSON.stringify({ data: "clickPlante" }));
           }
         });
       }
     })
 
-    on(str, "pluie", (data) => {
+    on(str, "afficheContainerPluie", (data) => {
+      console.log(data);
+      wss.clients.forEach(function each(client) {
+        if (client != ws && client.readyState === WebSocket.OPEN) {
+          function sendClient(eventName, data) {
+            client.send(JSON.stringify({ eventName, ...data }));
+          }
+          sendClient("ContainerPluie", { afficherPluie: true });
+        }
+      });
+    })
+
+    on(str, "averse", (data) => {
       console.log(data);
       nbPlayerDansePluie = nbPlayerDansePluie + 1;
-      if (nbPlayerDansePluie === 1) {
+      if (nbPlayerDansePluie === 4) {
         wss.clients.forEach(function each(client) {
           if (client != ws && client.readyState === WebSocket.OPEN) {
             console.log("pluie OK");
-            client.send(JSON.stringify({ data: "pluie" }));
+            client.send(JSON.stringify({ data: "clickPluie" }));
           }
         });
       }
+    })
+
+    on(str, "afficheContainerRecolte", (data) => {
+      console.log(data);
+      wss.clients.forEach(function each(client) {
+        if (client != ws && client.readyState === WebSocket.OPEN) {
+          function sendClient(eventName, data) {
+            client.send(JSON.stringify({ eventName, ...data }));
+          }
+          sendClient("ContainerRecolte", { afficherRecolte: true });
+        }
+      });
     })
 
     on(str, "recolte", (data) => {
@@ -229,12 +259,24 @@ wss.on("connection", function connection(ws) {
         wss.clients.forEach(function each(client) {
           if (client != ws && client.readyState === WebSocket.OPEN) {
             console.log("recolte OK");
-            client.send(JSON.stringify({ data: "recolte" }));
+            client.send(JSON.stringify({ data: "clickRecolte" }));
+            client.send(JSON.stringify({ data: "clickRecolte" }));
           }
+        });
+      }
+    })
+
+    on(str, "setFruit", (data) => {
+      console.log(data);
+      wss.clients.forEach(function each(client) {
+        if (client != ws && client.readyState === WebSocket.OPEN) {
+          function sendClient(eventName, data) {
+            client.send(JSON.stringify({ eventName, ...data }));
+          }
+          sendClient("setFruitsInventaire", { afficherRecolte: true });
         }
-        )
-      };
-    });
+      });
+    })
 
     on(str, "firstPassage", (data) => {
       wss.clients.forEach(function each(client) {
@@ -280,13 +322,47 @@ wss.on("connection", function connection(ws) {
         }
       })
     })
+
+    on(str, "cheminTrouve", (data) => {
+      console.log(data);
+      nbPlayerFinsihMap = nbPlayerFinsihMap + 1;
+      if (nbPlayerFinsihMap === 4) {
+        wss.clients.forEach(function each(client) {
+          if (client != ws && client.readyState === WebSocket.OPEN) {
+            console.log("map OK");
+            client.send(JSON.stringify({ data: "recolte" }));
+          }
+        }
+        )
+      };
+    })
+
+    on(str, "changementManetteDesert", (data) => {
+      console.log(data);
+      wss.clients.forEach(function each(client) {
+        if (client != ws && client.readyState === WebSocket.OPEN) {
+          function sendClient(eventName, data) {
+            client.send(JSON.stringify({ eventName, ...data }));
+          }
+          sendClient("manetteDesert", { finObstacle: true });
+        }
+      });
+    })
+
+    on(str, "finAventure", (data) => {
+      console.log(data);
+      wss.clients.forEach(function each(client) {
+        if (client != ws && client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ data: data.choice }));
+        }
+      });
+    })
   });
 
 
-
-  // setInterval(() => {
-  //   ws.send(JSON.stringify({ type: false }));
-  // }, 20000)
+  setInterval(() => {
+    ws.send(JSON.stringify({ type: false }));
+  }, 20000)
 });
 
-server.listen(process.env.PORT || 9000);
+server.listen(process.env.PORT || 3600);

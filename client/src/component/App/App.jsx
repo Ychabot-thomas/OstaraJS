@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Connexion from "../Connexion/Connexion";
 import {
-  ContainerPortrait,
-  PicturePortrait,
+  // ContainerPortrait,
+  // PicturePortrait,
   ContainerPaysage,
 } from "./App.styles";
-import flecheCercle from "../../img/flecheCercle.png";
+// import flecheCercle from "../../img/flecheCercle.png";
 import "./App.css";
 
 class App extends Component {
@@ -38,13 +38,13 @@ class App extends Component {
       );
     }
 
-    if (width < height) {
-      return (
-        <ContainerPortrait>
-          <PicturePortrait src={flecheCercle} alt="flecheCercle" />
-        </ContainerPortrait>
-      );
-    }
+    // if (width < height) {
+    //   return (
+    //     <ContainerPortrait>
+    //       <PicturePortrait src={flecheCercle} alt="flecheCercle" />
+    //     </ContainerPortrait>
+    //   );
+    // }
 
     return (
       <ContainerPaysage>

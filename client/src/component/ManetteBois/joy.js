@@ -56,10 +56,10 @@ export const JoyStick = function (container, parameters) {
   var externalRadius = internalRadius + 30;
   var centerX = canvas.width / 2;
   var centerY = canvas.height / 2;
-  // var directionHorizontalLimitPos = canvas.width / 10;
-  // var directionHorizontalLimitNeg = directionHorizontalLimitPos * -1;
-  // var directionVerticalLimitPos = canvas.height / 10;
-  // var directionVerticalLimitNeg = directionVerticalLimitPos * -1;
+  var directionHorizontalLimitPos = canvas.width / 10;
+  var directionHorizontalLimitNeg = directionHorizontalLimitPos * -1;
+  var directionVerticalLimitPos = canvas.height / 10;
+  var directionVerticalLimitNeg = directionVerticalLimitPos * -1;
   // Used to save current position of stick
   var movedX = centerX;
   var movedY = centerY;

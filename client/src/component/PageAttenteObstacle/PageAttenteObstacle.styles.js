@@ -16,7 +16,7 @@ export const GameObstacle = styled.div`
   background-image: url(${fond});
   min-width: 100vw;
   min-height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
 `;
@@ -24,7 +24,7 @@ export const GameObstacle = styled.div`
 export const MapObstaclePlayer1 = styled.div`
   min-width: 100vw;
   min-height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background-image: url(${canvasPlayer1});

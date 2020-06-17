@@ -18,7 +18,7 @@ class PageAttenteObstacle extends React.Component {
       // PROD
       client: props.client,
       //  DEV
-      // client: 4,
+      // client: 1,
       pierre: props.pierre,
       graine: props.graine,
       fruit: props.fruit,
@@ -36,12 +36,21 @@ class PageAttenteObstacle extends React.Component {
         console.log(str.desactive);
         this.setState({ finVideo: str.desactive });
       });
-      on(event.data, "finObstacle", (str) => {
+      on(event.data, "manetteDesert", (str) => {
         console.log(str);
         this.setState({ finObstacle: true });
       })
     };
+
+    if (this.state.finVideo === "endVideo") {
+      setTimeout(this.afficheManette, 3000);
+    }
   }
+
+  afficheManette = () => {
+    this.setState({ finVideo: "", finObstacle: true });
+  }
+
 
   render() {
     // 1
@@ -64,22 +73,22 @@ class PageAttenteObstacle extends React.Component {
         <GameObstacle>
           {client === 1 && (
             <MapObstaclePlayer1>
-              {/* <CanvasPLayer1 /> */}
+              {/* <canvas id="canvas"></canvas> */}
             </MapObstaclePlayer1>
           )}
           {client === 2 && (
             <MapObstaclePlayer2>
-              {/* <CanvasPLayer2 /> */}
+              {/* <CanvasPlayer2 /> */}
             </MapObstaclePlayer2>
           )}
           {client === 3 && (
             <MapObstaclePlayer3>
-              {/* <CanvasPLayer3 /> */}
+              {/* <CanvasPlayer3 /> */}
             </MapObstaclePlayer3>
           )}
           {client === 4 && (
             <MapObstaclePlayer4>
-              {/* <CanvasPLayer4 /> */}
+              {/* <CanvasPlayer4 /> */}
             </MapObstaclePlayer4>
           )}
         </GameObstacle>

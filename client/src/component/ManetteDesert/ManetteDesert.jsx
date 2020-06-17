@@ -52,6 +52,9 @@ import {
   ContainerPlayer4,
   ButtonMoinsPlayer,
   ButtonPlusPlayer,
+  ContainerFinExperience,
+  ContainerMessageFin,
+  MessagiFin
 } from "./ManetteDesert.styles";
 import { CrossCode } from "../Connexion/Connexion.styles";
 import { JoyStick } from "./joy";
@@ -87,11 +90,15 @@ class Manette extends React.Component {
       afficheAtout: false,
       affichePartage: false,
       afficheRessource: false,
+      finExperience: false,
       X: 0,
       Y: 0,
-      pierre: props.pierre,
-      graine: props.graine,
-      fruit: props.fruit,
+      // pierre: props.pierre,
+      // graine: props.graine,
+      // fruit: props.fruit,
+      pierre: 2,
+      graine: 1,
+      fruit: 0,
       partagePierre: 0,
       partageGraine: 0,
       partageFruit: 0,
@@ -104,7 +111,10 @@ class Manette extends React.Component {
       // client: 4,
       nameSendRessource: "",
       slideActif: 0,
-      choice: props.impactFinal
+      // PROD
+      choice: props.impactFinal,
+      // DEV
+      // choice: "",
     };
   }
 
@@ -212,6 +222,11 @@ class Manette extends React.Component {
     })
   }
 
+  quitGame = () => {
+    send("quitGame", { data: "quit" })
+    console.log("QuitGame");
+  }
+
   partageRessource = () => {
     this.setState({
       pierre: this.state.pierre - this.state.partagePierre,
@@ -245,7 +260,23 @@ class Manette extends React.Component {
     )
   };
 
+  impactFinExperience = () => {
+    // console.log("impact fin experience");
+    this.setState({ finExperience: false, choice: "rosalie" });
+    send("finAventure", { displayFinAventure: true, choice: "voiture" });
+  }
+
+  finExperience = () => {
+    // console.log("Je suis là :D");
+    this.setState({ finExperience: true });
+    // console.log(this.state.finExperience);
+    setTimeout(this.impactFinExperience, 5000);
+  }
+
   render() {
+
+    setTimeout(this.finExperience, 500);
+
 
     const PrettoSlider = withStyles({
       root: {
@@ -283,14 +314,15 @@ class Manette extends React.Component {
       afficheRessource,
       slideActif,
       client,
-      choice
+      choice,
+      finExperience
     } = this.state
 
     // Prod
     let idJoueur = client;
 
     // Dev
-    // let idJoueur = 2;
+    // let idJoueur = 1;
 
     if (idJoueur === 1) {
       return (
@@ -336,7 +368,7 @@ class Manette extends React.Component {
                 </ContainerSettingsVolume>
                 <ContainerSettings>
                   <ContainerButtonSettings>
-                    <InputSettings type="button" value="Quitter" />
+                    <InputSettings type="button" value="Quitter" onClick={this.quitGame} />
                   </ContainerButtonSettings>
                   <ContainerButtonSettings>
                     <InputSettings type="button" value="Sauvegarder" />
@@ -428,6 +460,13 @@ class Manette extends React.Component {
               </AfficheRessourceRecuJ1>
             )}
           </MannetteContainerJoueur1>
+          {finExperience === true && (
+            <ContainerFinExperience>
+              <ContainerMessageFin>
+                <MessagiFin>Merci d'avoir participé à cette expérience. <br /><br /> Vous allez être redirigé vers votre compte rendu de l'aventure</MessagiFin>
+              </ContainerMessageFin>
+            </ContainerFinExperience>
+          )}
           {choice === "rosalie" && (
             <ImpactFinalRosalie client={client} />
           )}
@@ -557,6 +596,13 @@ class Manette extends React.Component {
               </AfficheRessourceRecuJ2>
             )}
           </MannetteContainerJoueur2>
+          {finExperience === true && (
+            <ContainerFinExperience>
+              <ContainerMessageFin>
+                <MessagiFin>Merci d'avoir participé à cette expérience. <br /><br /> Vous allez être redirigé vers votre compte rendu de l'aventure</MessagiFin>
+              </ContainerMessageFin>
+            </ContainerFinExperience>
+          )}
           {choice === "rosalie" && (
             <ImpactFinalRosalie client={client} />
           )}
@@ -686,6 +732,13 @@ class Manette extends React.Component {
               </AfficheRessourceRecuJ3>
             )}
           </MannetteContainerJoueur3>
+          {finExperience === true && (
+            <ContainerFinExperience>
+              <ContainerMessageFin>
+                <MessagiFin>Merci d'avoir participé à cette expérience. <br /><br /> Vous allez être redirigé vers votre compte rendu de l'aventure</MessagiFin>
+              </ContainerMessageFin>
+            </ContainerFinExperience>
+          )}
           {choice === "rosalie" && (
             <ImpactFinalRosalie client={client} />
           )}
@@ -816,6 +869,13 @@ class Manette extends React.Component {
               </AfficheRessourceRecuJ4>
             )}
           </MannetteContainerJoueur4>
+          {finExperience === true && (
+            <ContainerFinExperience>
+              <ContainerMessageFin>
+                <MessagiFin>Merci d'avoir participé à cette expérience. <br /><br /> Vous allez être redirigé vers votre compte rendu de l'aventure</MessagiFin>
+              </ContainerMessageFin>
+            </ContainerFinExperience>
+          )}
           {choice === "rosalie" && (
             <ImpactFinalRosalie client={client} />
           )}

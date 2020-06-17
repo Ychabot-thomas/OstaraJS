@@ -16,7 +16,7 @@ import receptionRessourceJ1 from "../../img/receptionRessourceJ1.png";
 import receptionRessourceJ2 from "../../img/receptionRessourceJ2.png";
 import receptionRessourceJ3 from "../../img/receptionRessourceJ3.png";
 import receptionRessourceJ4 from "../../img/receptionRessourceJ4.png";
-
+import fondFinalExperience from "../../img/background_dark.png";
 
 
 export const MannetteContainerJoueur1 = styled.div`
@@ -427,4 +427,37 @@ export const ButtonPlusPlayer = styled.div`
 
 export const ImgPlayer = styled.img`
   width: 60%;
+`;
+
+export const ContainerFinExperience = styled.div`
+  display: block;
+  min-height: 100vh;
+  min-width: 100vw;
+  position: absolute;
+  top:0;
+  left:0;
+  background-color: rgba(0,0,0, 0.5);
+`;
+
+export const ContainerMessageFin = styled.div`
+  background-image: url(${fondFinalExperience});
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  width: 60%;
+  min-height: 50vh;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+`;
+
+export const MessagiFin = styled.p`
+  font-family: Infini;
+  color: #DFA666;
+  text-align: center;
+  position: relative;
+  top: 40px;
+  width: 80%;
+  margin: 0 auto
 `;

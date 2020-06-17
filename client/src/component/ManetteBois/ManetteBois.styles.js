@@ -24,6 +24,7 @@ export const MannetteContainerJoueur1 = styled.div`
   background-image: url(${fondMannetteJoueur1}); 
   background-size: cover;
   min-height: 100vh;
+  overflow: hidden;
 `;
 
 export const ParametreContainer = styled.div`
@@ -42,6 +43,7 @@ export const MannetteContainerJoueur2 = styled.div`
   background-image: url(${fondMannetteJoueur2}); 
   background-size: cover;
   min-height: 100vh;
+  overflow: hidden;
 `;
 
 export const ContainerCardConseil = styled.div`
@@ -58,6 +60,7 @@ export const MannetteContainerJoueur3 = styled.div`
   background-image: url(${fondMannetteJoueur3}); 
   background-size: cover;
   min-height: 100vh;
+  overflow: hidden;
 `;
 
 export const ContainerCardInfo = styled.div`
@@ -74,6 +77,7 @@ export const MannetteContainerJoueur4 = styled.div`
   background-image: url(${fondMannetteJoueur4}); 
   background-size: cover;
   min-height: 100vh;
+  overflow: hidden;
 `;
 
 export const ContainerMap = styled.div`
@@ -142,11 +146,11 @@ export const JoystickContainer = styled.div`
 export const ButtonPlayer = styled.div`
   background-image: url(${button_jump});
   background-repeat: no-repeat;
-  width: 22%;
+  width: 25%;
   height: 188px;
   position: absolute;
   right: 25px;
-  bottom: 33px;
+  bottom: 2vh;
 `;
 
 export const InputX = styled.input`

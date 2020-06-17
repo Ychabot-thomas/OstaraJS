@@ -5,8 +5,8 @@
 
 #joystick{
     position: absolute;
-    left: 25px;
-    bottom: 33px;
+    left: 2vw;
+    top: 37vh;
     background-image: url("../../img/fondjoystick.png");
     background-size: 95%;
     background-repeat: no-repeat;

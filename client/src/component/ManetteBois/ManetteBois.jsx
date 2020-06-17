@@ -106,7 +106,7 @@ class Manette extends React.Component {
       X: 0,
       Y: 0,
       pierre: 0,
-      graine: 2,
+      graine: 3,
       fruit: 0,
       partagePierre: 0,
       partageGraine: 0,
@@ -116,10 +116,10 @@ class Manette extends React.Component {
       receptionFruit: 0,
       jump: false,
       // PROD
-      // client: props.client,
+      client: props.client,
       // DEV
-      client: 1,
-      // nameSendRessource: "",
+      // client: 4,
+      nameSendRessource: "",
       slideActif: 0,
       choiceObstacle: ""
     };
@@ -138,7 +138,7 @@ class Manette extends React.Component {
     if (this.state.client === 4) {
       this.setState({ slideActif: 1 })
     }
-
+    // this.monnaieUnity();
     // send()
     const Joy = new JoyStick("joy");
 
@@ -149,19 +149,37 @@ class Manette extends React.Component {
       // Z
       let valueY = Joy.GetY();
 
-      if (valueX !== this.state.X || valueY !== this.state.Y) {
-        send("move", { x: valueX, y: valueY, joueur: this.state.client });
-      }
+      // if (valueX !== this.state.X || valueY !== this.state.Y) {
+      // if (this.state.client === 1) {
+      send("move", { x: valueX, y: valueY, joueur: this.state.client });
+      // console.log(valueX + " " + valueY)
+      // console.log("bonjkuopr")
+      // }
+      // }
 
+      if (this.state.graine === 4) {
+        this.setState({ afficheButtonPlanter: false, });
+      }
     };
+
+    const monnaieUnity = () => {
+      send("monnaieUnity", {
+        sendPlayer: this.state.client,
+        pierre: this.state.pierre,
+        graine: this.state.graine,
+        fruit: this.state.fruit,
+      });
+    }
 
 
     setInterval(joystick, 500);
+    setInterval(monnaieUnity, 1000);
 
     ws.onmessage = (event) => {
       on(event.data, "returnFalseJump", (str) => {
         this.setState({ jump: false })
       });
+
       on(event.data, "partageRessource", (str) => {
         //joueur 1 réception 
         if (str.partageJoueur === this.state.client) {
@@ -217,6 +235,19 @@ class Manette extends React.Component {
         this.setState({ afficheButtonPlanter: true });
       })
 
+      on(event.data, "ContainerPluie", (str) => {
+        this.setState({ afficheButttonPluie: true });
+      })
+
+      on(event.data, "ContainerRecolte", (str) => {
+        this.setState({ afficheButtonRamasser: true });
+      })
+
+      on(event.data, "setFruitsInventaire", (str) => {
+        console.log(str);
+        this.setState({ fruit: 3 })
+      })
+
       on(event.data, "containerConcertation", (str) => {
         this.setState({ afficheConcertation: false })
         console.log(this.state.choiceObstacle);
@@ -245,22 +276,9 @@ class Manette extends React.Component {
     };
   }
 
-  componentDidUpdate() {
-    const monnaieUnity = () => {
-      send("monnaieUnity", {
-        sendPlayer: this.state.client,
-        pierre: this.state.pierre,
-        graine: this.state.graine,
-        fruit: this.state.fruit,
-      });
-    }
-
-    setInterval(monnaieUnity, 1000);
-  }
-
   sauter = () => {
     this.setState({ jump: true })
-    send("jump", { jump: true });
+    send("jump", { jump: true, joueur: this.state.client });
   };
 
   atout = () => {
@@ -276,6 +294,11 @@ class Manette extends React.Component {
     })
   }
 
+  quitGame = () => {
+    send("quitGame", { data: "quit" })
+    console.log("QuitGame");
+  }
+
   partageRessource = () => {
     this.setState({
       pierre: this.state.pierre - this.state.partagePierre,
@@ -283,7 +306,7 @@ class Manette extends React.Component {
       fruit: this.state.fruit - this.state.partageFruit,
       partagePierre: 0,
       partageGraine: 0,
-      partageFruit: 0
+      partageFruit: 0,
     })
     send("partageRessource",
       {
@@ -294,7 +317,6 @@ class Manette extends React.Component {
         partageJoueur: this.state.slideActif
       }
     );
-    // console.log("nomJoueur : " + nomJoueur);
   }
 
   deleteDiv = () => {
@@ -315,16 +337,19 @@ class Manette extends React.Component {
   planterGraine = () => {
     console.log("Planter Graine");
     send('plante', { joueur: this.state.client, planter: true })
+    this.setState({ afficheButtonPlanter: false, graine: this.state.graine - 3 })
   }
 
   ramasserFruit = () => {
     console.log("Ramasser Fruit");
     send('recolte', { joueur: this.state.client, recolte: true })
+    this.setState({ afficheButtonRamasser: false })
   }
 
   pluie = () => {
     console.log("Pluie");
-    send('pluie', { joueur: this.state.client, pluie: true })
+    send('averse', { joueur: this.state.client, pluie: true })
+    this.setState({ afficheButttonPluie: false })
   }
 
   choiceVoiture = () => {
@@ -429,8 +454,8 @@ class Manette extends React.Component {
               </InteractionPlayer>
             </ActionContainerJoueur>
             <ControlPlayer>
-              <JoystickContainer id="joy"></JoystickContainer>
               <ButtonPlayer onClick={this.sauter}></ButtonPlayer>
+              <JoystickContainer id="joy"></JoystickContainer>
             </ControlPlayer>
             {afficheAtout === true && (
               <ParametreContainer>
@@ -439,7 +464,6 @@ class Manette extends React.Component {
                 <ContainerSettingsVolume>
                   <ContainerSettingsVolumeTitle>
                     <VolumeTitleSettings>musique</VolumeTitleSettings>
-                    <VolumeTitleSettings>voix</VolumeTitleSettings>
                   </ContainerSettingsVolumeTitle>
                   <ContainerSettingsVolumeCursor>
                     <PrettoSlider defaultValue={100} /* valueLabelDisplay="auto" */ />
@@ -447,7 +471,7 @@ class Manette extends React.Component {
                 </ContainerSettingsVolume>
                 <ContainerSettings>
                   <ContainerButtonSettings>
-                    <InputSettings type="button" value="Quitter" />
+                    <InputSettings type="button" value="Quitter" onClick={this.quitGame} />
                   </ContainerButtonSettings>
                   <ContainerButtonSettings>
                     <InputSettings type="button" value="Sauvegarder" />
